@@ -4,7 +4,15 @@ module.exports = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ['127.0.0.1'], // Add allowed external image domains here
+    domains: ['localhost'], 
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: '127.0.0.1',
+        port: '9000',
+        pathname: '/**',
+      },
+    ],
   },
   ...(process.env.NODE_ENV === 'production' && {
     typescript: {

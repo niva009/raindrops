@@ -127,7 +127,7 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
           ) : (
             <div className="flex items-center justify-center w-auto">
               <Image
-                src={`http://127.0.0.1:9000/${data?.image}`}
+                src={`http://localhost:5555/${data?.image}`}
                 alt={data?.name!}
                 width={900}
                 height={680}

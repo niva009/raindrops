@@ -102,7 +102,7 @@ const ProductFlashSellCard: React.FC<ProductProps> = ({
         <div className="relative flex-shrink-0 ">
           <div className="relative card-img-container overflow-hidden mx-auto w-full h-[180px] md:h-[200px] ">
             <Image
-              src={`http://127.0.0.1:9000/${image}`}
+              src={`http://localhost:5555/${image}`}
               alt={name || 'Product Image'}
               width={250}
               height={250}

@@ -18,7 +18,6 @@ import Text from '@components/ui/text';
 import TagLabel from '@components/ui/tag-label';
 import LabelIcon from '@components/icons/label-icon';
 import { IoArrowRedoOutline } from 'react-icons/io5';
-import RelatedProductFeedOld from '@components/product/feeds/related-product-feed-old';
 import SocialShareBox from '@components/ui/social-share-box';
 import { IoIosHeart, IoIosHeartEmpty } from 'react-icons/io';
 import { toast } from 'react-toastify';
@@ -30,7 +29,6 @@ import {
 import CloseButton from '@components/ui/close-button';
 import VariationPrice from './variation-price';
 import isEqual from 'lodash/isEqual';
-import { productgalleryPlaceholder } from '@assets/placeholders';
 
 const breakpoints = {
   '1536': {
@@ -94,7 +92,7 @@ export default function ProductPopup({ lang }: { lang: string }) {
     );
   }
   const item = generateCartItem(data, selectedVariation);
-  const outOfStock = isInCart(item.id) && !isInStock(item.id);
+  const outOfStock = isInCart(item._id) && !isInStock(item._id);
   function addToCart() {
     if (!isSelected) return;
     // to show btn feedback while product carting
@@ -138,7 +136,7 @@ export default function ProductPopup({ lang }: { lang: string }) {
     router.push(`${lang}/${ROUTES.PRODUCT}/${slug}`);
   }
 
-  useEffect(() => setSelectedQuantity(1), [data.id]);
+  useEffect(() => setSelectedQuantity(1), [data._id]);
 
   return (
     <div className="md:w-[600px] lg:w-[940px] xl:w-[1180px] mx-auto p-1 lg:p-0 xl:p-3 bg-brand-light rounded-md">
@@ -259,8 +257,8 @@ export default function ProductPopup({ lang }: { lang: string }) {
                     setSelectedQuantity((prev) => (prev !== 1 ? prev - 1 : 1))
                   }
                   disabled={
-                    isInCart(item.id)
-                      ? getItemFromCart(item.id).quantity + selectedQuantity >=
+                    isInCart(item._id)
+                      ? getItemFromCart(item._id).quantity + selectedQuantity >=
                         Number(item.stock)
                       : selectedQuantity >= Number(item.stock)
                   }

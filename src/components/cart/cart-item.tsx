@@ -26,7 +26,7 @@ const CartItem: React.FC<CartItemProps> = ({ lang, item }) => {
     >
       <div className="relative flex rounded overflow-hidden shrink-0 cursor-pointer w-[90px] md:w-[100px] h-[90px] md:h-[100px]">
         <Image
-          src={`http://127.0.0.1:9000/${item?.image ?? '/assets/placeholder/cart-item.svg'}`}
+          src={`http://localhost:5555/${item?.image ?? '/assets/placeholder/cart-item.svg'}`}
           width={100}
           height={100}
           loading="eager"

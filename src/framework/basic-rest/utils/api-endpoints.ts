@@ -28,7 +28,7 @@ export const API_ENDPOINTS = {
   ADDRESS: '/address.json',
   PAYMENT: '/payment.json',
   CONTACT: '/contact.json',
-  SHOP: '/shop.json',
+  SHOP: '/location-vendors',
   SHOPS: '/shops.json',
   WISHLIST: '/wishlist.json',
   BLOGS: '/blog.json',

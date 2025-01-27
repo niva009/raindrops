@@ -96,7 +96,7 @@ const ProductList: React.FC<ProductProps> = ({ product, className, lang }) => {
                 >
 
                     <Image
-                        src={`http://127.0.0.1:9000/${image}`}
+                        src={`http://localhost:5555/${image}`}
                         alt={name || 'Product Image'}
                         width={180}
                         height={180}

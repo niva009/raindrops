@@ -118,6 +118,7 @@ const ProductsCarousel: React.FC<ProductsCarouselProps> = ({
                         breakpoints={carouselBreakpoint || breakpoints}
                         className=""
                         lang={lang}
+                        autoplay={true}
                     >
                         {loading && !products?.length || products == undefined ? (
                             Array.from({length: limit!}).map((_, idx) => (

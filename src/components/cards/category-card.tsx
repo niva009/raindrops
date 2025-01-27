@@ -39,7 +39,7 @@ const CategoryCard: React.FC<Props> = ({lang, item, href, className,variant}) =>
                      )}
                 >
                     <Image
-                        src={`http://127.0.0.1:9000/${image}`}
+                        src={`http://localhost:5555/${image}`}
                         alt={name || t('text-card-thumbnail')}
                         width={100}
                         height={100}

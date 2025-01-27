@@ -81,7 +81,7 @@ const ThumbnailCarousel: React.FC<Props> = ({
               className="flex items-center justify-center"
             >
               <Image
-                src={`http://127.0.0.1:9000/${item?.image ?? productGalleryPlaceholder}`}
+                src={`http://localhost:5555/${item?.image ?? productGalleryPlaceholder}`}
                 alt={`Product gallery ${item.id}`}
                 width={650}
                 height={590}
@@ -137,7 +137,7 @@ const ThumbnailCarousel: React.FC<Props> = ({
               className="flex items-center justify-center cursor-pointer rounded overflow-hidden border border-border-base transition hover:opacity-75"
             >
               <Image
-                src={`http://127.0.0.1:9000/${item?.image ?? productGalleryPlaceholder}`}
+                src={`http://localhost:5555/${item?.image ?? productGalleryPlaceholder}`}
                 alt={`Product thumb gallery ${item.id}`}
                 width={170}
                 height={170}

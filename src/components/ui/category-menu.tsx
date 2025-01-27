@@ -39,7 +39,7 @@ function SidebarMenuItem({ className, item, depth = 0, lang }: any) {
           {icon && (
             <div className="inline-flex w-8 shrink-0 3xl:h-auto">
               <Image
-                src={`http://127.0.0.1:9000/${image}`}
+                src={`http://localhost:5555/${image}`}
                 alt={name || t('text-category-thumbnail')}
                 width={25}
                 height={25}

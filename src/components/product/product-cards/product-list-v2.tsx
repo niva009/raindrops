@@ -81,7 +81,7 @@ const ProductList: React.FC<ProductProps> = ({ product, className,lang }) => {
       <div className="col-span-3">
         <div className="max-w-[120px] mx-auto relative ">
           <Image
-            src={`http://127.0.0.1:9000/${image}`}
+            src={`http://localhost:5555/${image}`}
             alt={name || 'Product Image'}
             width={230}
             height={200}

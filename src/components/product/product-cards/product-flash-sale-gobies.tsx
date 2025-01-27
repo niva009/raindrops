@@ -95,7 +95,7 @@ const ProductFlashSaleGobies: React.FC<ProductProps> = ({
       </div>
       <figure className="relative flex items-center justify-center flex-grow w-full  px-16 m-0 mx-auto xl:h-56 2xl:h-80">
         <Image
-          src={`http://127.0.0.1:9000/${image}`}
+          src={`http://localhost:5555/${image}`}
           alt={name || 'Product Image'}
           width={400}
           height={500}

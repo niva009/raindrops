@@ -99,19 +99,7 @@ const ProductCardMedium: React.FC<ProductProps> = ({
   const { isInCart, isInStock } = useCart();
   const outOfStock = isInCart(id) && !isInStock(id);
   const iconSize = width! > 1024 ? '20' : '17';
-  // const { price, basePrice, discount } = usePrice({
-  //   amount: product?.sale_price ? product?.sale_price : product?.price,
-  //   baseAmount: product?.price,
-  //   currencyCode: 'USD',
-  // });
-  // const { price: minPrice } = usePrice({
-  //   amount: product?.min_price ?? 0,
-  //   currencyCode: 'USD',
-  // });
-  // const { price: maxPrice } = usePrice({
-  //   amount: product?.max_price ?? 0,
-  //   currencyCode: 'USD',
-  // });
+
 
   function handlePopupView() {
     openModal('PRODUCT_VIEW', product);
@@ -131,7 +119,7 @@ const ProductCardMedium: React.FC<ProductProps> = ({
       <div className="relative flex-shrink-0 product-card-img">
         <div className="card-img-container overflow-hidden flex items-center">
           <ImageFill
-            src={`http://127.0.0.1:9000/${image}`}
+            src={`http://localhost:5555/${image}`}
             alt={name || 'Product Image'}
             width={180}
             height={180}

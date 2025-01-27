@@ -28,36 +28,34 @@ interface CategoriesProps {
 const CategoryGridBlock: React.FC<CategoriesProps> = ({
                                                           className = 'md:pt-3 lg:pt-0 3xl:pb-2 mb-12 sm:mb-14 md:mb-16 xl:mb-24 2xl:mb-16',
                                                           lang,
-                                                          limit = 8,
+                                                          limit = 30,
                                                           variant='default'
                                                       }) => {
     const {width} = useWindowSize();
-    const {data, isLoading, error} = useCategoriesQuery({
-        limit: LIMITS.CATEGORIES_LIMITS,
-    });
+    const {data, isLoading, error} = useCategoriesQuery<[]>();
     const breakpoints = {
         '1480': {
             slidesPerView: limit,
-            spaceBetween: 10
+            spaceBetween: 5
         },
         '1280': {
             slidesPerView: 5,
-            spaceBetween: 10
+            spaceBetween: 5
         },
         '1024': {
             slidesPerView: 5,
-            spaceBetween: 10
+            spaceBetween: 5
         },
         '768': {
-            slidesPerView: 4,
-            spaceBetween: 10
+            slidesPerView: 3,
+            spaceBetween: 5
         },
         '600': {
-            slidesPerView: 2,
+            slidesPerView: 3,
             spaceBetween: 1
         },
         '0': {
-            slidesPerView: 2,
+            slidesPerView: 3,
             spaceBetween: 1
         },
     };

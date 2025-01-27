@@ -15,12 +15,15 @@ interface Props {
 const BestSellerProductFeed: FC<Props> = ({
    lang,
    className,
-   variant,
 }) => {
   const { data, isLoading, error } = useBestSellerProductsQuery({
     limit: LIMITS.BEST_SELLER_PRODUCTS_LIMITS,
   });
 
+
+  console.log("bestsellerproducts..:", data);
+
+  
   return (
     <ProductsCarousel
       sectionHeading="text-best-sellers"
@@ -31,7 +34,6 @@ const BestSellerProductFeed: FC<Props> = ({
       limit={LIMITS.BEST_SELLER_PRODUCTS_LIMITS}
       uniqueKey="best-sellers"
       lang={lang}
-      variant={variant}
       className={className}
     />
   );

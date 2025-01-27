@@ -103,7 +103,7 @@ const ProductCardV2: React.FC<ProductProps> = ({product, className, lang,variant
             <div className="relative flex-shrink-0 overflow-hidden rounded-sm">
                 <div className="relative flex card-img-container   w-full">
                     <Image
-                        src={`http://127.0.0.1:9000/${image}`}
+                        src={`http://localhost:5555/${image}`}
                         alt={name || 'Product Image'}
                         width={262}
                         height={327}
@@ -138,11 +138,12 @@ const ProductCardV2: React.FC<ProductProps> = ({product, className, lang,variant
                     {unit}
                 </div>
                 <Link
-                    href={`/${lang}${ROUTES.PRODUCTS}/${slug}`}
-                    className="text-skin-base font-semibold text-sm	leading-5 min-h-[40px] line-clamp-2 mb-2 hover:text-brand"
-                >
-                    {name}
-                </Link>
+  href={`/${lang}${ROUTES.PRODUCTS}/${slug}`}
+  className="text-skin-base font-semibold text-sm text-center leading-5 min-h-[40px] line-clamp-2 mb-2 hover:text-brand"
+>
+  {name}
+</Link>
+
                 <div className="flex text-gray-500 space-x-2 mb-2">
                     <div className="flex items-center">
                         {[...Array(5)].map((_, idx) => (

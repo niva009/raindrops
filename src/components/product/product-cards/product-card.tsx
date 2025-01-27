@@ -1,19 +1,15 @@
 import cn from 'classnames';
 import Image from '@components/ui/image';
-import usePrice from '@framework/product/use-price';
 import {Product} from '@framework/types';
 import {useModalAction} from '@components/common/modal/modal.context';
 import useWindowSize from '@utils/use-window-size';
 import {useCart} from '@contexts/cart/cart.context';
 
-import {productPlaceholder} from '@assets/placeholders';
 import dynamic from 'next/dynamic';
 import {useTranslation} from 'src/app/i18n/client';
 import {ROUTES} from '@utils/routes';
 import Link from '@components/ui/link';
-import SearchIcon from '@components/icons/search-icon';
 import CheckIcon from '@components/icons/check-icon';
-import StarIcon from "@components/icons/star-icon";
 
 const AddToCart = dynamic(() => import('@components/product/add-to-cart'), {
     ssr: false,
@@ -26,15 +22,17 @@ interface ProductProps {
     variant: string
 }
 
+
+
 function RenderPopupOrAddToCart({props}: { props: Object }) {
     let {data, lang}: any = props;
     // console.log(variant);
     const {t} = useTranslation(lang, 'common');
-    const {id, quantity, type} = data ?? {};
+    const {_id, stock, type} = data ?? {};
     const {width} = useWindowSize();
     const {openModal} = useModalAction();
     const {isInCart, isInStock} = useCart();
-    const outOfStock = isInCart(id) && !isInStock(id);
+    const outOfStock = isInCart(_id) && !isInStock(_id);
     
     const iconSize = width! > 1024 ? '19' : '17';
     
@@ -42,7 +40,7 @@ function RenderPopupOrAddToCart({props}: { props: Object }) {
         openModal('PRODUCT_VIEW', data);
     }
     
-    if (Number(quantity) < 1 || outOfStock) {
+    if (Number(stock) < 1 || outOfStock) {
         return (
             <span className="block w-full text-[13px] leading-6 px-4 py-2 bg-brand-danger rounded-full text-brand-light text-[13px] items-center justify-center">
         {t('text-out-stock')}
@@ -66,11 +64,11 @@ function RenderLabelStock({props}: { props: Object }) {
     let {data, lang}: any = props;
     // console.log(variant);
     const {t} = useTranslation(lang, 'common');
-    const {id, quantity, type} = data ?? {};
+    const {_id, stock, type} = data ?? {};
     const {isInCart, isInStock} = useCart();
-    const outOfStock = isInCart(id) && !isInStock(id);
+    const outOfStock = isInCart(_id) && !isInStock(_id);
    
-    if (Number(quantity) < 1 || outOfStock) {
+    if (Number(stock) < 1 || outOfStock) {
         return (
             <p className="font-medium flex items-center space-x-1 text-[12px] text-skin-label_out out_stock">
                 <CheckIcon fill={"text-skin-label_in"} opacity="1"/>
@@ -82,31 +80,21 @@ function RenderLabelStock({props}: { props: Object }) {
         <p className="font-medium flex items-center space-x-1 text-[12px] text-skin-label_in in_stock">
             <CheckIcon fill={"text-skin-label_in"} opacity="1"/>
             <span> {t('text-in-stock')} </span>
-            <span className="text-brand-dark"><b>{quantity}</b> {t('text-items')}</span>
+            <span className="text-brand-dark"><b>{stock}</b> {t('text-items')}</span>
         </p>
     )
 }
 const ProductCard: React.FC<ProductProps> = ({product, className, lang,variant="default"}) => {
-    const {id, name, image, unit, quantity, slug, discount ,price, salePrice, type} = product ?? {};
+    const {id, name, image, companyId, quantity, slug, discount ,price, sale_price,productAttribute} = product ?? {};
+    const company_name = companyId?.company_name; 
+    const  type = productAttribute?.type;
+    const  value = productAttribute?.value;
     const {openModal} = useModalAction();
     const {t} = useTranslation(lang, 'common');
     const {width} = useWindowSize();
     const {isInCart, isInStock} = useCart();
     const outOfStock = isInCart(id) && !isInStock(id);
     const iconSize = width! > 1024 ? '20' : '17';
-    // const {price, basePrice, discount} = usePrice({
-    //     amount: product?.sale_price ? product?.sale_price : product?.price,
-    //     baseAmount: product?.price,
-    //     currencyCode: 'USD'
-    // });
-    // const {price: minPrice} = usePrice({
-    //     amount: product?.min_price ?? 0,
-    //     currencyCode: 'USD',
-    // });
-    // const {price: maxPrice} = usePrice({
-    //     amount: product?.max_price ?? 0,
-    //     currencyCode: 'USD',
-    // });
     
     function handlePopupView() {
         openModal('PRODUCT_VIEW', product);
@@ -127,7 +115,7 @@ const ProductCard: React.FC<ProductProps> = ({product, className, lang,variant="
         <div className="relative flex-shrink-0 ">
           <div className="relative card-img-container overflow-hidden flex item-center w-full">
             <Image
-              src={`http://127.0.0.1:9000/${image}`}
+              src={`http://localhost:5555/${image}`}
               alt={name || 'Product Image'}
               width={180}
               height={180}
@@ -135,50 +123,38 @@ const ProductCard: React.FC<ProductProps> = ({product, className, lang,variant="
           </div>
           <div className="w-full h-full absolute top-0  z-10">
             {discount && (
-              <span className="text-[10px] font-medium text-white uppercase inline-block bg-red-600 rounded-sm px-2.5 pt-1 pb-[3px] mx-0.5 sm:mx-1">
-                {t('text-on-sale')}
+              <span  style={{backgroundColor:'#28837a', color:"white", fontWeight:"bold"}} className="text-[12px] font-medium  uppercase inline-block rounded-sm px-2.5 pt-1 pb-[3px] mx-0.5 sm:mx-1">
+              {Math.round(discount)} % off
               </span>
             )}
-            <button
-              className="buttons--quickview px-4 py-2 bg-brand-light rounded-full hover:bg-brand hover:text-brand-light"
-              aria-label="Quick View Button"
-              onClick={handlePopupView}
-            >
-              <SearchIcon width={iconSize} height={iconSize} opacity="1" />
-            </button>
           </div>
         </div>
 
         <div className="flex flex-col h-full overflow-hidden relative product-cart-content">
-          <div className="text-sm mt-auto leading-6 text-gray-400 mb-1.5 hidden">
-            {unit}
-          </div>
           <Link
             href={`/${lang}${ROUTES.PRODUCTS}/${slug}`}
-            className="text-skin-base font-semibold text-sm leading-5 min-h-[40px] line-clamp-2 mt-1 mb-2 hover:text-brand"
+            className="text-skin-base font-bold text-sm text-lg leading-5 min-h-[20px] line-clamp-2 mt-1 mb-2 hover:text-brand"
           >
             {name}
           </Link>
-          <div className="flex text-gray-500 space-x-2">
-            <div className="flex items-center">
-              {[...Array(5)].map((_, idx) => (
-                <StarIcon
-                  key={idx}
-                  color={idx < 5 ? '#F3B81F' : '#DFE6ED'}
-                  className="w-3 h-3 mx-px"
-                />
-              ))}
-            </div>
-            <span className="text-[13px] leading-4">(1 review)</span>
-          </div>
-          <div className="space-s-2">
-            <span className="inline-block font-semibold text-[18px] text-brand">
-              {type === 'variant'
-                ? `${salePrice} - ${salePrice}`
-                : price}
+
+          <span style={{color:'black'}} className="inline-block font-bold text-[14px] ">
+            {value} {type}
             </span>
-              <del className="mx-1  text-gray-400 text-opacity-70">
-                {price}
+
+          <Link
+            href={`/${lang}${ROUTES.PRODUCTS}/${slug}`}
+            className="text-skin-base font-semibold text-sm text-lg 
+font-style: italic leading-5 min-h-[20px] line-clamp-2 mt-1 mb-2 hover:text-brand"
+          >
+            {company_name}
+          </Link>
+          <div className="space-s-2">
+            <span style={{color:"#28873a"}} className="inline-block font-bold text-[18px] ">
+            ₹{sale_price}
+            </span>
+              <del className="mx-1  text-gray-600 text-opacity-70">
+              ₹{price}
               </del>
           </div>
           <div className="mt-3 ">
