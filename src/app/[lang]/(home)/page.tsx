@@ -72,8 +72,10 @@ export default function Page({
                 );
     
                 if (response.ok) {
+                    
                     const shopList = await response.json();
-                    setShops(shopList.data);
+                    const limitData = shopList.data.slice(0,6);
+                    setShops(limitData);
                 } else {
                     console.log(`Failed to fetch shops: ${response.statusText}`);
                 }
