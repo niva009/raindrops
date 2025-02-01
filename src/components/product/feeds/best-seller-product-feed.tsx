@@ -5,7 +5,6 @@ import { useBestSellerProductsQuery } from '@framework/product/get-all-best-sell
 import { LIMITS } from '@framework/utils/limits';
 import { ROUTES } from '@utils/routes';
 import {FC} from "react";
-import PopularProductFeed from "@components/product/feeds/popular-product-feed";
 
 interface Props {
     lang: string;

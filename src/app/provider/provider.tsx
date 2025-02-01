@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { ReactQueryDevtools } from 'react-query/devtools';
 
 function Providers({ children }: React.PropsWithChildren) {
   const queryClientRef = React.useRef<any>();
@@ -13,7 +12,6 @@ function Providers({ children }: React.PropsWithChildren) {
   return (
     <QueryClientProvider client={queryClientRef.current}>
       {children}
-      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
     </QueryClientProvider>
   );
 }

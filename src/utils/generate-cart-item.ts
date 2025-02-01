@@ -1,6 +1,6 @@
 import isEmpty from 'lodash/isEmpty';
 interface Item {
-  id: string | number;
+  _id: string | number;
   name: string;
   slug: string;
   image: {
@@ -21,11 +21,11 @@ interface Variation {
   [key: string]: unknown;
 }
 export function generateCartItem(item: Item, variation: Variation) {
-  const { id, name, slug, image, price, sale_price, quantity, unit } = item;
+  const { _id, name, slug, image, price, sale_price, quantity, unit } = item;
   if (!isEmpty(variation)) {
     return {
-      id: `${id}.${variation.id}`,
-      productId: id,
+      id: `${_id}.${variation.id}`,
+      productId: _id,
       name: `${name} - ${variation.title}`,
       slug,
       unit,
@@ -36,7 +36,7 @@ export function generateCartItem(item: Item, variation: Variation) {
     };
   }
   return {
-    id,
+    _id,
     name,
     slug,
     unit,

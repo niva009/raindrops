@@ -217,7 +217,7 @@ console.log("shops list.,", shops);
                 <h3 style={{ fontWeight: "bolder", color: "black", fontSize: "26px" }}>
                     Product Category
                 </h3>
-                <CategoryGridBlock lang={lang} className="mb-8 mt-8 lg:mb-12" />
+                <CategoryGridBlock lang={lang} className="mb-8 mt-8 lg:mb-12" variant={''} />
             </Container>
             <div className={'bg-zinc-100 py-10 sm:py-14'}>
                 <Container>
@@ -229,8 +229,8 @@ console.log("shops list.,", shops);
           ))}
         </div>
 
-                    <BestSellerProductFeed lang={lang} className="mb-8 lg:mb-15" />
-                    <BannerGrid
+                    <BestSellerProductFeed lang={lang} className="mb-8 lg:mb-15" /> 
+                    {/* <BannerGrid
                         lang={lang}
                         data={gridHero}
                         grid={1}
@@ -244,7 +244,7 @@ console.log("shops list.,", shops);
                         className="mb-8 lg:mb-15"
                     />
                     <PopularProductFeed lang={lang} className="mb-8 lg:mb-15" />
-                    <LatestblogCarousel lang={lang} />
+                    <LatestblogCarousel lang={lang} />  */}
                 </Container>
             </div>
         </>

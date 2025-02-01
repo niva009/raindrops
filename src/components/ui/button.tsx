@@ -27,11 +27,11 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
   const rootClassName = cn(
     'group text-[13px] md:text-sm lg:text-15px leading-4 inline-flex items-center cursor-pointer transition ease-in-out duration-300 font-body font-medium text-center justify-center tracking-[0.2px] rounded placeholder-white focus-visible:outline-none focus:outline-none',
     {
-      'bg-brand text-brand-light tracking-widest px-5 md:px-6 lg:px-8 py-4 md:py-3.5 lg:py-4 hover:text-white hover:bg-opacity-90':
+      'bg-[#28837a] text-white tracking-widest px-5 md:px-6 lg:px-8 py-4 md:py-3.5 lg:py-4 hover:bg-opacity-90':
         variant === 'primary',
-      'h-12 md:h-14 bg-brand-light text-base border border-border-four tracking-widest px-5 md:px-6 lg:px-8 py-4 md:py-3.5 lg:py-4':
+      'h-12 md:h-14 bg-white text-[#28837a] border border-[#28837a] tracking-widest px-5 md:px-6 lg:px-8 py-4 md:py-3.5 lg:py-4 hover:bg-[#28837a] hover:text-white':
         variant === 'border',
-      'h-11 md:h-[50px] bg-brand text-brand-light font-manrope px-5 lg:px-6 py-4 md:py-3.5 lg:py-4 hover:text-white hover:bg-opacity-90 focus:bg-opacity-70':
+      'h-11 md:h-[50px] bg-[#28837a] text-white font-manrope px-5 lg:px-6 py-4 md:py-3.5 lg:py-4 hover:bg-opacity-90 focus:bg-opacity-70':
         variant === 'formButton',
       'cursor-not-allowed hover:cursor-not-allowed bg-opacity-50 hover:bg-opacity-50':
         disabled,

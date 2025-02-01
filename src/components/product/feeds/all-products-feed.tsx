@@ -11,39 +11,29 @@ import slice from 'lodash/slice';
 import Alert from '@components/ui/alert';
 import cn from 'classnames';
 import { useTranslation } from 'src/app/i18n/client';
-import { usePathname, useRouter } from 'next/navigation';
 import { LIMITS } from '@framework/utils/limits';
 import { Product } from '@framework/types';
-import useQueryParam from '@utils/use-query-params';
 interface ProductFeedProps {
   lang: string;
   element?: any;
   className?: string;
+  data?: any;
 }
 const AllProductFeed: FC<ProductFeedProps> = ({
   lang,
   element,
+  data,
   className = '',
 }) => {
   const { t } = useTranslation(lang, 'common');
-  const pathname = usePathname();
-  const { getParams, query } = useQueryParam(pathname ?? '/');
-  const newQuery: any = getParams(
-    // @ts-ignore
-    `${process.env.NEXT_PUBLIC_WEBSITE_URL}${query}`
-  );
+
 
   const {
     isFetching: isLoading,
     isFetchingNextPage: loadingMore,
-    fetchNextPage,
-    hasNextPage,
-    data,
     error,
   } = useProductsQuery({
     limit: LIMITS.PRODUCTS_LIMITS,
-    // @ts-ignore
-    newQuery,
   });
 
   const { openModal } = useModalAction();
@@ -51,6 +41,8 @@ const AllProductFeed: FC<ProductFeedProps> = ({
   function handleCategoryPopup() {
     openModal('CATEGORY_VIEW');
   }
+
+  console.log("1234", data);
 
   return (
     <div className={cn(className)}>
@@ -68,11 +60,11 @@ const AllProductFeed: FC<ProductFeedProps> = ({
           {t('text-categories')}
         </div>
       </div>
-      {error ? (
+      {data.length === 0 ? (
         <Alert message={error?.message} />
       ) : (
         <div className="grid grid-cols-2 gap-1.5 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4">
-          {isLoading && !data?.pages?.length ? (
+          {isLoading && !data?.data?.length ? (
             Array.from({ length: LIMITS.PRODUCTS_LIMITS }).map((_, idx) => (
               <ProductCardLoader
                 key={`product--key-${idx}`}
@@ -81,30 +73,15 @@ const AllProductFeed: FC<ProductFeedProps> = ({
             ))
           ) : (
             <>
-              {data?.pages?.map((page: any, index) => {
-                return (
-                  <Fragment key={index}>
-                    {page?.data?.slice(0, 18)?.map((product: Product) => (
+                  <Fragment>
+                    {data?.data?.map((product: Product) => (
                       <ProductCardAlpine
                         key={`product--key${product.id}`}
                         product={product}
-                        lang={lang}
-                      />
+                        lang={lang} variant={''}                      />
                     ))}
-                    {element && <div className="col-span-full">{element}</div>}
-                    {page?.data?.length! > 18 &&
-                      slice(page?.data, 18, page?.data?.length).map(
-                        (product: any) => (
-                          <ProductCardAlpine
-                            key={`product--key${product.id}`}
-                            product={product}
-                            lang={lang}
-                          />
-                        )
-                      )}
                   </Fragment>
-                );
-              })}
+
             </>
           )}
         </div>

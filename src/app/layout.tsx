@@ -1,5 +1,6 @@
 import { Bai_Jamjuree as FontBai } from 'next/font/google';
 import { Metadata } from 'next';
+import ReduxProvider from './provider/redux-provider';
 
 import './[lang]/globals.css';
 import '@assets/css/google-font.css';
@@ -14,7 +15,7 @@ const fontBai = FontBai({
 
 
 export const metadata: Metadata = {
-  title: 'Uminex',
+  title: 'raindrops',
 };
 
 export default function RootLayout({
@@ -29,7 +30,9 @@ export default function RootLayout({
         className={fontBai.variable}
         suppressHydrationWarning={true}
       >
+        <ReduxProvider>
         {children}
+        </ReduxProvider>
       </body>
     </html>
   );

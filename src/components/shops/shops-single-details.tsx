@@ -14,6 +14,9 @@ import AllProductFeed from '@components/product/feeds/all-products-feed';
 import useWindowSize from '@utils/use-window-size';
 import motionProps from '@components/common/drawer/motion';
 import { useTranslation } from 'src/app/i18n/client';
+import React, { useState} from 'react';
+import vendorimage from '../../assets/placeholders/fresss.jpeg'
+
 
 export default function ShopsSingleDetails({ lang }: { lang: string }) {
     const { t } = useTranslation(lang, 'common');
@@ -24,8 +27,16 @@ export default function ShopsSingleDetails({ lang }: { lang: string }) {
     const { width } = useWindowSize();
     const dir = getDirection(lang);
     const contentWrapperCSS = dir === 'ltr' ? { left: 0 } : { right: 0 };
+    const productData = data?.data;
 
     if (isLoading) return <p>Loading...</p>;
+
+
+    console.log("shop query ", data);
+    console.log("prodcut", productData)
+  
+
+
 
     return (
         <>
@@ -33,8 +44,8 @@ export default function ShopsSingleDetails({ lang }: { lang: string }) {
             <div className="flex items-center px-4 py-4 border-b lg:hidden md:px-6 border-border-base mb-7 bg-white">
                 <div className="flex shrink-0">
                     <Image
-                        src={data?.logo?.original as string}
-                        alt={`${data?.name}`}
+                        src={data?.image ?`http://localhost:5555/${data?.image}`: vendorimage}
+                        alt={`${data?.company_name}`}
                         width={66}
                         height={66}
                         className="rounded-md"
@@ -43,13 +54,13 @@ export default function ShopsSingleDetails({ lang }: { lang: string }) {
                 </div>
                 <div className="ltr:pl-4 rtl:pr-4">
                     <h2 className="font-semibold text-brand-dark text-15px">
-                        {data?.name}
+                        {data?.company_name}
                     </h2>
                     <button
                         className="block text-sm font-medium transition-all text-brand hover:text-brand-muted"
                         onClick={openShop}
-                    >
-                        {t('text-more-info')}
+                    >MoreInfo
+                        {t('')}
                     </button>
                 </div>
             </div>
@@ -66,7 +77,7 @@ export default function ShopsSingleDetails({ lang }: { lang: string }) {
                     </div>
 
                     <div className="w-full lg:ltr:pl-7 lg:rtl:pr-7">
-                        <AllProductFeed lang={lang} />
+                        <AllProductFeed data={data} lang={lang} />
                     </div>
                 </Element>
             </Container>

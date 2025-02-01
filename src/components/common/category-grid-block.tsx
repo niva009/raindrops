@@ -80,7 +80,7 @@ const CategoryGridBlock: React.FC<CategoriesProps> = ({
                                 );
                             })
                             : data?.categories?.data?.slice(0, limit)?.map((category) => (
-                                <SwiperSlide key={`category--key-${category.id}`}>
+                                <SwiperSlide key={`category--key-${category._id}`}>
                                     <CategoryCard
                                         lang={lang}
                                         item={category}

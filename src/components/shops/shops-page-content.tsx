@@ -56,7 +56,7 @@ const ShopsPageContent: React.FC<{ lang: string }> = ({ lang }) => {
 
 useEffect(() =>{
   fetchShops();
-})
+},[])
 
   return (
     <div className=" pb-14 lg:pb-16 xl:pb-20 pt-14">

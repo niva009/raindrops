@@ -1,19 +1,16 @@
 import cn from 'classnames';
 import ImageFill from '@components/ui/image';
-import usePrice from '@framework/product/use-price';
 import { Product } from '@framework/types';
 import { useModalAction } from '@components/common/modal/modal.context';
 import useWindowSize from '@utils/use-window-size';
 import { useCart } from '@contexts/cart/cart.context';
-
-import { productPlaceholder } from '@assets/placeholders';
 import dynamic from 'next/dynamic';
 import { useTranslation } from 'src/app/i18n/client';
-import { ROUTES } from '@utils/routes';
-import Link from '@components/ui/link';
+// import Link from '@components/ui/link';
 import SearchIcon from '@components/icons/search-icon';
 import CheckIcon from '@components/icons/check-icon';
 import StarIcon from '@components/icons/star-icon';
+import Link from 'next/link';
 
 const AddToCart = dynamic(() => import('@components/product/add-to-cart'), {
   ssr: false,
@@ -92,13 +89,15 @@ const ProductCardMedium: React.FC<ProductProps> = ({
   className,
   lang,
 }) => {
-  const { id, name, image, unit, quantity, slug, type, price, salePrice, discount } = product ?? {};
+  const { _id, name, image, unit, quantity, slug, type, price, salePrice, discount } = product ?? {};
   const { openModal } = useModalAction();
   const { t } = useTranslation(lang, 'common');
   const { width } = useWindowSize();
   const { isInCart, isInStock } = useCart();
-  const outOfStock = isInCart(id) && !isInStock(id);
+  const outOfStock = isInCart(_id) && !isInStock(_id);
   const iconSize = width! > 1024 ? '20' : '17';
+
+
 
 
   function handlePopupView() {
@@ -118,12 +117,17 @@ const ProductCardMedium: React.FC<ProductProps> = ({
     >
       <div className="relative flex-shrink-0 product-card-img">
         <div className="card-img-container overflow-hidden flex items-center">
+          <Link href={`/en/products/${_id}`} className="text-skin-base font-semibold text-sm leading-5 min-h-[40px] line-clamp-2 mt-1 mb-2 hover:text-brand"
+                >
+
           <ImageFill
             src={`http://localhost:5555/${image}`}
             alt={name || 'Product Image'}
             width={180}
             height={180}
+            
           />
+          </Link>
         </div>
         <div className="w-full h-full absolute top-0  z-10">
           {discount && (
@@ -146,7 +150,7 @@ const ProductCardMedium: React.FC<ProductProps> = ({
           {unit}
         </div>
         <Link
-          href={`/${lang}${ROUTES.PRODUCTS}/${slug}`}
+          href={`/en/products/${_id}`}
           className="text-skin-base font-semibold text-sm leading-5 min-h-[40px] line-clamp-2 mb-2 hover:text-brand"
         >
           {name}
