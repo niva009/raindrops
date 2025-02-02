@@ -3,8 +3,10 @@ import AddressGrid from '@components/address/address-grid';
 
 const AddressPage: React.FC<{ lang: string }> = ({ lang }) => {
   let { data, isLoading } = useAddressQuery();
+
+  console.log("address data..:", data);
   return !isLoading ? (
-    <AddressGrid address={data?.data} lang={lang} />
+    <AddressGrid address={data} lang={lang} />
   ) : (
     <div>Loading...</div>
   );

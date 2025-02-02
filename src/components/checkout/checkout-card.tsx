@@ -1,11 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import usePrice from '@framework/product/use-price';
-import cn from 'classnames';
 import { useCart } from '@contexts/cart/cart.context';
 import Text from '@components/ui/text';
-import Button from '@components/ui/button';
 import { CheckoutItem } from '@components/checkout/checkout-card-item';
 import { CheckoutCardFooterItem } from './checkout-card-footer-item';
 import { useRouter } from 'next/navigation';
@@ -14,20 +11,33 @@ import { useTranslation } from 'src/app/i18n/client';
 import { useIsMounted } from '@utils/use-is-mounted';
 import { useEffect, useState } from 'react';
 import SearchResultLoader from '@components/ui/loaders/search-result-loader';
+import { useDispatch, useSelector } from "react-redux";
+import { viewCartAsync } from "../../../redux/reducer/cartReducer"; // Redux action
+
+
 
 const CheckoutCard: React.FC<{ lang: string }> = ({ lang }) => {
   const { t } = useTranslation(lang, 'common');
   const router = useRouter();
-  const [isLoading, setLoading] = useState(true);
+  const [isLoading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const { products, totalPrice, totalDiscount, totalitems } = useSelector((state: RootState) => state.cart);
+
+
+  useEffect(() => {
+    dispatch(viewCartAsync()); 
+  }, [dispatch])
+
+
+
+  console.log("products checkout", products);
+
 
   useEffect(() => {
     setLoading(false);
   }, []);
   const { items, total, isEmpty } = useCart();
-  const { price: subtotal } = usePrice({
-    amount: total,
-    currencyCode: 'USD',
-  });
+
   function orderHeader() {
     !isEmpty && router.push(`/${lang}${ROUTES.ORDER}`);
   }
@@ -35,7 +45,7 @@ const CheckoutCard: React.FC<{ lang: string }> = ({ lang }) => {
     {
       id: 1,
       name: t('text-sub-total'),
-      price: subtotal,
+      price: totalPrice,
     },
     {
       id: 2,
@@ -45,7 +55,7 @@ const CheckoutCard: React.FC<{ lang: string }> = ({ lang }) => {
     {
       id: 3,
       name: t('text-total'),
-      price: subtotal,
+      price: totalPrice,
     },
   ];
   const mounted = useIsMounted();
@@ -64,8 +74,8 @@ const CheckoutCard: React.FC<{ lang: string }> = ({ lang }) => {
           <div className="w-full">
             <SearchResultLoader uniqueKey={`product-key`} />
           </div>
-        ) : !isEmpty && mounted ? (
-          items.map((item) => <CheckoutItem item={item} key={item.id} />)
+        ) : products.length !==0 ? (
+          products.map((item) => <CheckoutItem item={item} key={item._id} />)
         ) : (
           <p className="py-4 text-brand-danger text-opacity-70">
             {t('text-empty-cart')}
@@ -75,18 +85,7 @@ const CheckoutCard: React.FC<{ lang: string }> = ({ lang }) => {
           checkoutFooter.map((item: any) => (
             <CheckoutCardFooterItem item={item} key={item.id} />
           ))}
-        <Button
-          variant="formButton"
-          className={cn(
-            'w-full mt-8 mb-5 rounded font-semibold px-4 py-3 transition-all',
-            mounted && isEmpty
-              ? 'opacity-40 cursor-not-allowed'
-              : '!bg-brand !text-brand-light'
-          )}
-          onClick={orderHeader}
-        >
-          {t('button-order-now')}
-        </Button>
+    
       </div>
       <Text className="mt-8">
         {t('text-by-placing-your-order')}{' '}

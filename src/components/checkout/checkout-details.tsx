@@ -18,34 +18,34 @@ const CheckoutDetails: React.FC<{ lang: string }> = ({ lang }) => {
   const data = [
     {
       id: 1,
-      title: 'text-delivery-address',
+      title: 'address',
       component: <Address lang={lang} />,
     },
     {
       id: 2,
-      title: 'text-delivery-schedule',
+      title: 'payment',
       component: <DeliverySchedule lang={lang} />,
     },
-    {
-      id: 3,
-      title: 'text-contact-number',
-      component: <Contact lang={lang} />,
-    },
-    {
-      id: 4,
-      title: 'text-payment-option',
-      component: <StripeCheckoutInlineForm lang={lang} />,
-    },
-    {
-      id: 5,
-      title: 'text-delivery-instructions',
-      component: <DeliveryNotes lang={lang} />,
-    },
-    {
-      id: 6,
-      title: 'text-delivery-tip',
-      component: <DeliveryTips lang={lang} />,
-    },
+    // {
+    //   id: 3,
+    //   title: 'text-contact-number',
+    //   component: <Contact lang={lang} />,
+    // },
+    // {
+    //   id: 4,
+    //   title: 'text-payment-option',
+    //   component: <StripeCheckoutInlineForm lang={lang} />,
+    // },
+    // {
+    //   id: 5,
+    //   title: 'text-delivery-instructions',
+    //   component: <DeliveryNotes lang={lang} />,
+    // },
+    // {
+    //   id: 6,
+    //   title: 'text-delivery-tip',
+    //   component: <DeliveryTips lang={lang} />,
+    // },
   ];
   const changeItem = (itemIndex: any) => {
     if (itemIndex !== bindIndex) {
@@ -86,9 +86,10 @@ const CheckoutDetails: React.FC<{ lang: string }> = ({ lang }) => {
                 {!(data?.length - 1 === index) ? (
                   <div className="ltr:text-right rtl:text-left">
                     <Button
+                    style={{background:"#288374"}}
                       onClick={() => changeItem(index + 1)}
                       variant="formButton"
-                      className="px-4 py-3 text-sm font-semibold rounded bg-brand text-brand-light"
+                      className="px-4 py-3 text-sm font-semibold rounded  text-brand-light"
                     >
                       {t('button-next-steps')}
                     </Button>

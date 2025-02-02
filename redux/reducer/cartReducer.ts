@@ -90,13 +90,12 @@ export const incrementCartAsync = createAsyncThunk(
   }
 );
 
-// Async action to decrement item quantity in the cart
 export const decrementCartAsync = createAsyncThunk(
   "cart/decrementCartAsync",
   async ({ id }: { id: string }, { rejectWithValue }) => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.put("http://localhost:5555/api/cart-decrement", { productId: id }, {
+      const response = await axios.put("http://localhost:5555/api/cart-dicrement", { productId: id }, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `${token}`,
@@ -109,33 +108,59 @@ export const decrementCartAsync = createAsyncThunk(
   }
 );
 
+export const deleteFromCartAsync = createAsyncThunk(
+  "cart/deleteFromCartAsync",
+  async ({ id }: { id: string }, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.delete(`http://localhost:5555/api/delete-cart/${id}`, {
+        headers: {
+          Authorization: `${token}`,
+        },
+      });
+
+      console.log("Deleted Cart Response:", response.data);
+      return response.data?.data?.productId; 
+    } catch (error: any) {
+      console.error("Delete API Error:", error.response?.data || error.message);
+      return rejectWithValue(error.response?.data?.message || "Failed to delete item from cart");
+    }
+  }
+);
+
+
 const cartSlice = createSlice({
   name: "cart",
   initialState: {
-    products: [], 
+    products: [],
     totalPrice: 0,
     totalDiscount: 0,
     totalitems: 0,
   },
   reducers: {
     removeFromCart: (state, action: PayloadAction<{ id: string }>) => {
-      state.products = state.products.filter((item) => item.id !== action.payload.id);
+      state.products = state.products.filter((item) => item._id !== action.payload.id);
     },
   },
   extraReducers: (builder) => {
-    // ✅ View Cart: Store total price, discount, and items correctly
     builder.addCase(viewCartAsync.fulfilled, (state, action) => {
       console.log("API Response (viewCartAsync):", action.payload);
       state.products = Array.isArray(action.payload?.products) ? action.payload.products : [];
-      state.totalPrice = action.payload?.totalPrice || 0; 
-      state.totalDiscount = action.payload?.totalDiscount || 0; 
+      state.totalPrice = action.payload?.totalPrice || 0;
+      state.totalDiscount = action.payload?.totalDiscount || 0;
       state.totalitems = action.payload?.totalitems || 0;
     });
-
-    // ✅ Increment Quantity
+  
+    // ✅ Handle item deletion
+    builder.addCase(deleteFromCartAsync.fulfilled, (state, action) => {
+      console.log("Deleted item from cart:", action.payload);
+      state.products = state.products.filter((item) => item._id !== action.payload);
+    });
+  
     builder.addCase(incrementCartAsync.fulfilled, (state, action) => {
       console.log("Incremented Cart Response:", action.payload);
-      if (!action.payload) return;
+      if (!action.payload || !action.payload._id) return; 
+  
       const item = state.products.find((item) => item._id === action.payload._id);
       if (item) {
         item.quantity = action.payload.quantity;
@@ -143,19 +168,24 @@ const cartSlice = createSlice({
         state.products.push(action.payload);
       }
     });
-
-    // ✅ Decrement Quantity
+  
     builder.addCase(decrementCartAsync.fulfilled, (state, action) => {
+      console.log("Decremented Cart Response:", action.payload);
+      if (!action.payload || !action.payload._id) return; 
+  
       const item = state.products.find((item) => item._id === action.payload._id);
       if (item) {
         item.quantity = action.payload.quantity;
       }
     });
-  },
+  }
+  
 });
 
-export const { removeFromCart } = cartSlice.actions;
+
 export default cartSlice.reducer;
+
+
 
 
 

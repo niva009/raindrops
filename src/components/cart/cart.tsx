@@ -19,13 +19,13 @@ export default function Cart({ lang }: { lang: string }) {
   const { closeDrawer } = useUI();
   const dispatch = useDispatch();
 
-  // ✅ Updated: Get cart products instead of items
+ 
   const { products, totalPrice, totalDiscount, totalitems } = useSelector((state: RootState) => state.cart);
 
-  const isEmpty = products.length === 0; // ✅ Ensure `isEmpty` is derived correctly
+  const isEmpty = products.length === 0; 
 
   useEffect(() => {
-    dispatch(viewCartAsync()); // ✅ Fetch cart items when component loads
+    dispatch(viewCartAsync()); 
   }, [dispatch]);
 
   return (
@@ -37,7 +37,7 @@ export default function Cart({ lang }: { lang: string }) {
             <button
               className="flex items-center text-15px transition duration-150 ease-in text-brand-dark opacity-50 hover:opacity-100"
               aria-label={t("text-clear-all")}
-              onClick={() => dispatch({ type: "cart/resetCart" })} // ✅ Fixed Reset Action
+              onClick={() => dispatch({ type: "cart/resetCart" })} 
             >
               <DeleteIcon />
               <span className="pl-1">{t("text-clear-all")}</span>
@@ -79,7 +79,8 @@ export default function Cart({ lang }: { lang: string }) {
         <div className="flex flex-col" onClick={closeDrawer}>
           <Link
             href={!isEmpty ? `/${lang}${ROUTES.CHECKOUT}` : `/${lang}`}
-            className={`w-full px-5 py-3 md:py-4 flex items-center justify-center bg-heading rounded font-semibold text-sm sm:text-15px text-brand-light bg-brand focus:outline-none transition duration-300 hover:bg-opacity-90 ${
+            
+            className={`w-full px-5 py-3 md:py-4 flex items-center bg-green-800 justify-center bg-heading rounded font-semibold text-sm sm:text-15px text-brand-light focus:outline-none transition duration-300 hover:bg-opacity-90 ${
               isEmpty ? "cursor-not-allowed text-brand-dark text-opacity-25 bg-fill-four hover:bg-fill-four" : ""
             }`}
           >
