@@ -3,7 +3,7 @@ import { LIMITS } from '@framework/utils/limits';
 import ListingTabsList from "@components/product/listingtabs/listingtabs-list";
 import ListingTabsContainer from "@components/product/listingtabs/listingtabs-container";
 import { useClothCategoryQuery } from '@framework/product/get-cloth-category';
-import {usefashionProductsQuery} from "@framework/product/get-all-fashion-products";
+import {usefashionProductsQuery} from "@framework/product/popular-best-seller";
 
 
 export default function ListingTabsClothFeed(props: any) {

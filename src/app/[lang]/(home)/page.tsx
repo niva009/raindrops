@@ -3,7 +3,8 @@
 import Container from '@components/ui/container';
 import HeroSliderBlock from '@components/hero/hero-slider-block';
 import BestSellerProductFeed from '@components/product/feeds/best-seller-product-feed';
-import PopularProductFeed from '@components/product/feeds/popular-product-feed';
+import ComboOfferproducts from '@components/product/feeds/combo-seller-product';
+import PopularProducts from '@components/product/feeds/popular-product-feed';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 
@@ -13,9 +14,6 @@ import {
 } from '@framework/static/banner';
 import BannerGrid from "@components/common/banner-grid";
 import CategoryGridBlock from "@components/common/category-grid-block";
-import ProductWithBestDeals from "@components/product/product-with-best-deals";
-import ListingTabsElectronicFeed from '@components/product/feeds/listingtabs-electronic-feed';
-import LatestblogCarousel from '@components/common/latestblog-carousel';
 import Modal from 'react-modal';
 import { FaLocationDot } from "react-icons/fa6";
 import VendorCard from '@components/cards/vendor-card';
@@ -230,6 +228,8 @@ console.log("shops list.,", shops);
         </div>
 
                     <BestSellerProductFeed lang={lang} className="mb-8 lg:mb-15" /> 
+                    <PopularProducts lang={lang} className="mb-8 lg:mb-15" /> 
+                    <ComboOfferproducts lang={lang} className="mb-8 lg:mb-15" /> 
                     {/* <BannerGrid
                         lang={lang}
                         data={gridHero}

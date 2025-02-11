@@ -3,7 +3,7 @@ import { LIMITS } from '@framework/utils/limits';
 import SupperCategoryList from '@components/suppercategory/suppercategory-list';
 import SupperCategoryContainer from '@components/suppercategory/suppercategory-container';
 import { useClothCategoryQuery } from '@framework/product/get-cloth-category';
-import { usefashionProductsQuery } from '@framework/product/get-all-fashion-products';
+import { usefashionProductsQuery } from '@framework/product/popular-best-seller';
 import { useRouter } from 'next/router';
 import { getDirection } from '@utils/get-direction';
 import Image from '@components/ui/image';

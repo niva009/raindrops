@@ -37,6 +37,7 @@
     "accept-language": "^3.0.18",
     "axios": "^1.7.9",
     "classnames": "^2.3.2",
+    "crypto-js": "^4.2.0",
     "dayjs": "^1.11.8",
     "i": "^0.3.7",
     "i18next": "^22.5.1",
@@ -74,6 +75,7 @@
     "yet-another-react-lightbox": "^3.14.0"
   },
   "devDependencies": {
+    "@types/crypto-js": "^4.2.2",
     "@types/js-cookie": "^3.0.3",
     "@types/leaflet": "^1.9.3",
     "@types/lodash": "^4.14.195",

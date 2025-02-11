@@ -33,7 +33,7 @@ const SearchBox = React.forwardRef<HTMLInputElement, SearchProps>(
     ref
   ) => {
     const { t } = useTranslation(lang, 'forms');
-    
+
     return (
       <form
         className="relative flex w-full rounded-md"
@@ -41,14 +41,15 @@ const SearchBox = React.forwardRef<HTMLInputElement, SearchProps>(
         role="search"
         onSubmit={onSubmit}
       >
-        <label htmlFor={searchId} className="flex flex-1 items-center py-0.5">
+        <label htmlFor={searchId} className="flex flex-1 items-center py-0.5 w-full">
           <input
             id={searchId}
             className={cn(
-              'text-heading outline-none w-full h-[45px] ltr:pl-5 rtl:pr-5 md:ltr:pl-6 md:rtl:pr-6 ltr:pr-14 rtl:pl-14 md:ltr:pr-16 md:rtl:pl-16 bg-brand-light text-brand-dark text-sm rounded transition-all duration-200 focus:border-brand focus:ring-0 placeholder:text-brand-dark/50',
+              'text-heading outline-none w-full h-[45px] ltr:pl-5 rtl:pr-5 md:ltr:pl-6 md:rtl:pr-6 ltr:pr-14 rtl:pl-14 md:ltr:pr-16 md:rtl:pl-16 text-brand-dark text-sm rounded transition-all duration-200 placeholder:text-brand-dark/50',
               {
-                'border-2 border-black/10': variant === 'border',
+                'border-2 border-black/10 bg-white': variant === 'border', 
                 'border-0 bg-fill-two': variant === 'fill',
+                ' focus:text-black focus:border-emerald-500': true, 
               }
             )}
             placeholder={t('placeholder-search') as string}

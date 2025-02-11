@@ -5,7 +5,7 @@ import {FC} from "react";
 import cn from "classnames";
 import { Tab } from '@headlessui/react'
 import BestSellerProductFeed from "@components/product/feeds/best-seller-product-feed";
-import ElectronicProductFeed from "@components/product/feeds/electronic-product-feed";
+import ElectronicProductFeed from "@components/product/feeds/popular-products";
 import FashionProductFeed from "@components/product/feeds/fashion-product-feed";
 
 type BoxProps = {

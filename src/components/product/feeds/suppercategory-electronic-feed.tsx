@@ -5,7 +5,7 @@ import SupperCategoryList from '@components/suppercategory/suppercategory-list';
 import SupperCategoryContainer from '@components/suppercategory/suppercategory-container';
 
 import {useElectronicCategoryQuery} from '@framework/product/get-electronic-category';
-import {useElectronicProductsQuery} from '@framework/product/get-all-electronic-products';
+import {useElectronicProductsQuery} from '@framework/product/get-combo-seller-products';
 
 import {getDirection} from '@utils/get-direction';
 

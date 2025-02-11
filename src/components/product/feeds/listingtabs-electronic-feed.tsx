@@ -2,7 +2,7 @@
 import {LIMITS} from '@framework/utils/limits';
 import ListingTabsList from "@components/product/listingtabs/listingtabs-list";
 import ListingTabsContainer from "@components/product/listingtabs/listingtabs-container";
-import {useElectronicProductsQuery} from "@framework/product/get-all-electronic-products";
+import {useElectronicProductsQuery} from "@framework/product/get-combo-seller-products";
 import {useElectronicCategoryQuery} from '@framework/product/get-electronic-category';
 import {useState, useMemo, ReactNode} from "react";
 

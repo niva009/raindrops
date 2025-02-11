@@ -136,11 +136,18 @@ const cartSlice = createSlice({
     totalPrice: 0,
     totalDiscount: 0,
     totalitems: 0,
+    couponDiscount : 0,
   },
   reducers: {
     removeFromCart: (state, action: PayloadAction<{ id: string }>) => {
       state.products = state.products.filter((item) => item._id !== action.payload.id);
     },
+    applyCoupon: (state, action) => {
+      state.couponDiscount = action.payload;
+    },
+    removeCoupon: (state) => {
+      state.couponDiscount = 0;
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(viewCartAsync.fulfilled, (state, action) => {
@@ -182,7 +189,7 @@ const cartSlice = createSlice({
   
 });
 
-
+export const { applyCoupon, removeCoupon } = cartSlice.actions;
 export default cartSlice.reducer;
 
 

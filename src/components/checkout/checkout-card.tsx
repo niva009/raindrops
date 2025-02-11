@@ -16,12 +16,13 @@ import { viewCartAsync } from "../../../redux/reducer/cartReducer"; // Redux act
 
 
 
+
 const CheckoutCard: React.FC<{ lang: string }> = ({ lang }) => {
   const { t } = useTranslation(lang, 'common');
   const router = useRouter();
   const [isLoading, setLoading] = useState(false);
   const dispatch = useDispatch();
-  const { products, totalPrice, totalDiscount, totalitems } = useSelector((state: RootState) => state.cart);
+  const { products, totalPrice, totalDiscount, totalitems,couponDiscount } = useSelector((state: RootState) => state.cart);
 
 
   useEffect(() => {
@@ -29,8 +30,7 @@ const CheckoutCard: React.FC<{ lang: string }> = ({ lang }) => {
   }, [dispatch])
 
 
-
-  console.log("products checkout", products);
+  console.log("gggg",couponDiscount);
 
 
   useEffect(() => {
@@ -49,13 +49,13 @@ const CheckoutCard: React.FC<{ lang: string }> = ({ lang }) => {
     },
     {
       id: 2,
-      name: t('text-shipping'),
-      price: '$0',
+      name: "couponDiscount",
+      price: couponDiscount > 0 ? `- ₹${couponDiscount}` : `0`,
     },
     {
       id: 3,
       name: t('text-total'),
-      price: totalPrice,
+      price: totalPrice - couponDiscount,
     },
   ];
   const mounted = useIsMounted();

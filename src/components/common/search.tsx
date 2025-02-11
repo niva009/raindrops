@@ -7,6 +7,8 @@ import SearchResultLoader from '@components/ui/loaders/search-result-loader';
 import useFreezeBodyScroll from '@utils/use-freeze-body-scroll';
 import Scrollbar from '@components/ui/scrollbar';
 import { useUI } from '@contexts/ui.context';
+import { useBestSellerProductsQuery } from '@framework/product/get-all-best-seller-products';
+import { LIMITS } from '@framework/utils/limits';
 
 type Props = {
   lang: string;
@@ -33,8 +35,11 @@ const Search = React.forwardRef<HTMLDivElement, Props>(
     } = useUI();
     const [searchText, setSearchText] = useState('');
     const [inputFocus, setInputFocus] = useState<boolean>(false);
-    const { data, isLoading } = useSearchQuery({
-      text: searchText,
+    const[searchData, setSearchData] = useState("");
+
+    
+    const { data, isLoading, error } = useBestSellerProductsQuery({
+      limit: LIMITS.BEST_SELLER_PRODUCTS_LIMITS,
     });
 
     useFreezeBodyScroll(
@@ -56,6 +61,10 @@ const Search = React.forwardRef<HTMLDivElement, Props>(
       setInputFocus(true);
     }
 
+    const result = data?.filter(o => o.name.includes(searchText))
+
+    console.log("search text..:", searchText);
+    console.log("seach result", result);
     return (
       <div
         ref={ref}
@@ -109,7 +118,7 @@ const Search = React.forwardRef<HTMLDivElement, Props>(
                           />
                         </div>
                       ))
-                    : data?.map((item, index) => (
+                    : result?.map((item, index) => (
                         <div
                           key={`search-result-key-${index}`}
                           className="py-2.5 ps-5 pe-10 border-b border-black/5 scroll-snap-align-start transition-colors duration-200 hover:bg-fill-four"

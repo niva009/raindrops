@@ -61,7 +61,7 @@ export default function CartSidebar({ lang }: { lang: string }) {
             </Text>
           </div>
           <div className="shrink-0 font-semibold text-base md:text-lg text-brand-dark -mt-0.5 min-w-[80px] ltr:text-right rtl:text-left">
-            {cartTotal}
+          ₹{cartTotal}
           </div>
         </div>
         <div className="flex flex-col" onClick={closeDrawer}>

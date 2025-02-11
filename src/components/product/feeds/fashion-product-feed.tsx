@@ -3,7 +3,7 @@ import ProductsCarousel from '@components/product/products-carousel';
 import { ROUTES } from '@utils/routes';
 import { LIMITS } from '@framework/utils/limits';
 import {FC} from "react";
-import {usefashionProductsQuery} from "@framework/product/get-all-fashion-products";
+import {usefashionProductsQuery} from "@framework/product/popular-best-seller";
 
 interface Props {
     lang: string;

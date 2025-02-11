@@ -1,6 +1,6 @@
 import Container from '@components/ui/container';
 import ProductSingleDetails from '@components/product/product';
-import ElectronicProductFeed from '@components/product/feeds/electronic-product-feed';
+import ElectronicProductFeed from '@components/product/feeds/popular-products';
 import RelatedProductFeedOld from '@components/product/feeds/related-product-feed-old';
 import Breadcrumb from '@components/ui/breadcrumb';
 

@@ -58,6 +58,9 @@ useEffect(() =>{
   fetchShops();
 },[])
 
+
+console.log("shopsss", shops);
+
   return (
     <div className=" pb-14 lg:pb-16 xl:pb-20 pt-14">
         <Container>

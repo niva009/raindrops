@@ -73,7 +73,7 @@ export default function Cart({ lang }: { lang: string }) {
             <Text className="leading-6">{t("text-cart-final-price-discount")}</Text>
           </div>
           <div className="shrink-0 font-semibold text-base md:text-lg text-brand-dark min-w-[80px] text-right">
-            ${totalPrice}
+          ₹{totalPrice}
           </div>
         </div>
         <div className="flex flex-col" onClick={closeDrawer}>

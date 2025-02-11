@@ -2,14 +2,14 @@
 import {LIMITS} from '@framework/utils/limits';
 import SupperCategoryList from "@components/suppercategory/suppercategory-list";
 import SupperCategoryContainer from "@components/suppercategory/suppercategory-container";
-import {useElectronicProductsQuery} from "@framework/product/get-all-electronic-products";
+import {useElectronicProductsQuery} from "@framework/product/get-combo-seller-products";
 import {usePhonesCategoryQuery} from '@framework/product/get-phones-category';
 import {getDirection} from "@utils/get-direction";
 import BannerGrid from "@components/common/banner-grid";
 import {homeSupperCategory4} from "@framework/static/banner";
 import cn from "classnames";
 import React from "react";
-import {usefashionProductsQuery} from "@framework/product/get-all-fashion-products";
+import {usefashionProductsQuery} from "@framework/product/popular-best-seller";
 import {useBestSellerProductsQuery} from "@framework/product/get-all-best-seller-products";
 
 interface CategoriesProps {

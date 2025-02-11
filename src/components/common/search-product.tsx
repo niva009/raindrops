@@ -10,7 +10,7 @@ type SearchProductProps = {
 };
 
 const SearchProduct: React.FC<SearchProductProps> = ({ lang, item }) => {
-  const { name, image, price, salePrice, slug, type } = item ?? {};
+  const { name, image, price, sale_price, slug, type } = item ?? {};
 
   return (
     <Link
@@ -25,18 +25,18 @@ const SearchProduct: React.FC<SearchProductProps> = ({ lang, item }) => {
           alt={name || 'Product Image'}
           className="object-cover bg-fill-thumbnail"
           style={{ width: 'auto' }}
-        />
+        />  
       </div>
 
       <div className="flex flex-col w-full overflow-hidden">
         <h3 className="truncate text-skin-base text-15px  mb-1.5">{name}</h3>
         <div className="space-x-2 ">
-          <span className="inline-block font-semibold text-sm sm:text-15px lg:text-base text-skin-primary">
-            {type === 'variant' ? `${salePrice} - ${price}` : price}
+          <span style={{color:"#28837a"}} className="inline-block font-semibold text-sm sm:text-15px lg:text-base text-skin-primary">
+          ₹{sale_price}
           </span>
           {price && (
             <del className="text-sm text-skin-base text-opacity-70">
-              {price}
+             ₹{price}
             </del>
           )}
         </div>

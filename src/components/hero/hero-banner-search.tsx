@@ -22,6 +22,8 @@ const HeroSearchBox: FC<HeroSearchBoxProps> = ({ lang, style, button }) => {
     e.preventDefault();
     router.push(`/${lang}/search?q=${searchTerm}`);
   }
+
+  console.log("search teram", searchTerm);
   return (
     <form
       className={`relative flex w-full ${
