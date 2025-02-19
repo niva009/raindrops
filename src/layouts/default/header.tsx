@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import dynamic from 'next/dynamic';
 import {siteSettings} from '@settings/site-settings';
 import {ROUTES} from '@utils/routes';
@@ -19,7 +19,7 @@ import AccountIcon from '@components/icons/account-icon';
 import {FiMenu} from 'react-icons/fi';
 import CategoryDropdownMenu from '@components/category/category-dropdown-menu';
 import {useTranslation} from 'src/app/i18n/client';
-
+import { useRouter } from 'next/navigation'
 const AuthMenu = dynamic(() => import('@layouts/header/auth-menu'), {
     ssr: false,
 });
@@ -42,6 +42,8 @@ const Header: React.FC<HeaderProps> = ({className, lang}) => {
     const siteHeaderRef = useRef() as DivElementRef;
     const [categoryMenu, setCategoryMenu] = useState(Boolean(false));
     useActiveScroll(siteHeaderRef);
+    const [token, setToken] = useState(null);
+
     
     function handleLogin() {
         openModal('LOGIN_VIEW');
@@ -54,6 +56,22 @@ const Header: React.FC<HeaderProps> = ({className, lang}) => {
     function handleCategoryMenu() {
         setCategoryMenu(!categoryMenu);
     }
+
+
+    useEffect(() => {
+        const storedToken = localStorage.getItem("token");
+        setToken(storedToken);
+      }, []);
+
+    const router = useRouter()
+
+    const handleAuthClick = () => {
+        if (token) {
+            router.push(`/${lang}${ROUTES.ACCOUNT}`);
+        } else {
+            handleLogin()
+        }
+      };
     
     return (
         <>
@@ -111,21 +129,18 @@ const Header: React.FC<HeaderProps> = ({className, lang}) => {
                                 {/* End of search */}
                                 
                                 <div className="text-brand-icon-header flex text-sm space-x-5 xl:space-x-10 lg:max-w-[33%]">
-                                    <div className="hidden lg:flex items-center shrink-0 accountButton">
-                                        <div className="cart-button">
-                                            <AccountIcon />
+                                    <div className="hidden lg:flex items-center shrink-0 accountButton">    
+                                        <div className="flex items-center">
+                                            <div className="cart-button">
+                                                <AccountIcon />
+                                            </div>
+                                            <button 
+                                                onClick={handleAuthClick} 
+                                                className="text-sm  text-gray-700 hover:text-emerald-600 transition"
+                                            >
+                                                {token ? t('text-account') : t('text-sign-in')}
+                                            </button>
                                         </div>
-                                        
-                                        <AuthMenu
-                                            isAuthorized={isAuthorized}
-                                            href={`/${lang}${ROUTES.ACCOUNT}`}
-                                            btnProps={{
-                                                children: t('text-sign-in'),
-                                                onClick: handleLogin,
-                                            }}
-                                        >
-                                            {t('text-account')}
-                                        </AuthMenu>
                                     </div>
                                     <CartButton className="hidden lg:flex" lang={lang}/>
                                 </div>
@@ -184,16 +199,18 @@ const Header: React.FC<HeaderProps> = ({className, lang}) => {
                                         
                                         <div className="flex-shrink-0 flex items-center">
                                           
-                                            <AuthMenu
-                                                isAuthorized={isAuthorized}
-                                                href={ROUTES.ACCOUNT}
-                                                btnProps={{
-                                                    children: <AccountIcon/>,
-                                                    onClick: handleLogin,
-                                                }}
+                                        <div className="flex items-center">
+                                            <div className="cart-button">
+                                                <AccountIcon />
+                                            </div>
+                                            <button 
+                                                onClick={handleAuthClick} 
+                                                className="text-sm text-gray-700 hover:text-brand transition"
                                             >
-                                                {t('text-account')}
-                                            </AuthMenu>
+                                                {token ? t('text-account') : t('text-sign-in')}
+                                            </button>
+                                        </div>
+
                                         </div>
                                         {/* End of auth */}
                                         

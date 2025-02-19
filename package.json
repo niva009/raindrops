@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.17",
+    "@lottiefiles/dotlottie-react": "^0.13.0",
     "@react-google-maps/api": "^2.18.1",
     "@reduxjs/toolkit": "^2.5.1",
     "@stripe/react-stripe-js": "^2.1.0",
@@ -62,6 +63,7 @@
     "react-hook-form": "^7.43.9",
     "react-i18next": "^12.3.1",
     "react-icons": "^4.9.0",
+    "react-lottie-player": "^2.1.0",
     "react-modal": "^3.16.3",
     "react-query": "^3.39.3",
     "react-redux": "^9.2.0",

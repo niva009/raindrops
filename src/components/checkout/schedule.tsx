@@ -6,6 +6,10 @@
   import axios from 'axios';
   import { ToastContainer, toast } from 'react-toastify';
   import { applyCoupon } from "../../../redux/reducer/cartReducer";
+  import { useRouter } from 'next/navigation'
+import resourcesToBackend from 'i18next-resources-to-backend';
+ 
+
 
   const customStyles = {
     content: {
@@ -47,14 +51,27 @@
     const [isCouponApplied, setIsCouponApplied] = useState(false); // Tracks if a coupon has been applied
     const { products, totalPrice } = useSelector((state) => state.cart);
     const [selectedPayment, setSelectedPayment] = useState("");
+    const [paymentMethord, setPaymentMethod] = useState("");
+    const [ couponCode, setCouponCode] = useState("");
+
+
+
+    const token = localStorage.getItem("token");  
+    const router = useRouter();
+      const addressId = localStorage.getItem("addressId");
 
     useEffect(() => {
       dispatch(viewCartAsync());
     }, [dispatch]);
+
+    console.log("address id info", addressId);
     
 
     const companyId = products[0]?.companyId;
     const userId = products[0]?.userId;
+
+    
+
 
     useEffect(() => {
       const fetchCoupons = async () => {
@@ -83,6 +100,8 @@
     }
 
     const validateCoupon = async (couponCode) => {
+
+      setCouponCode(couponCode);
       try {
         if (userId && couponCode) {
           const response = await axios.post(
@@ -125,6 +144,44 @@
         closeModal();
       }
     };
+
+
+const orderCreation = async (method: string) => {
+  setPaymentMethod(method); 
+
+  console.log("payment methord..;", method);
+
+  try {
+    if (method === "COD") {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_REST_API_ENDPOINT}/order-creation`,
+        {
+          couponCode: couponCode || "",
+          paymentType: method,
+          addressId: addressId,
+          totalAmount: newCartValue,
+        },
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        console.log("Order created successfully:", response.data);
+        router.push('/en/success');
+
+      } else {
+        console.log("Failed to create order:", response.data);
+        toast.warning("order creation failed", response.data.message)
+      }
+    }
+  } catch (error) {
+    console.error("Error creating order:", error);
+  }
+};
+
 
     return (
       <div className="w-full">
@@ -261,8 +318,8 @@
         <h3 style={{ fontSize: "20px", fontWeight: "bold" }}>Choose Payment Method</h3>
         <button
           style={{
-            backgroundColor: selectedPayment === "online" ? "#28837a" : "#ddd",
-            color: selectedPayment === "online" ? "white" : "black",
+            backgroundColor: paymentMethord === "online" ? "#28837a" : "#ddd",
+            color: paymentMethord === "online" ? "white" : "black",
             padding: "10px 20px",
             margin: "10px",
             borderRadius: "5px",
@@ -275,14 +332,14 @@
         </button>
         <button
           style={{
-            backgroundColor: selectedPayment === "cod" ? "#28837a" : "#ddd",
-            color: selectedPayment === "cod" ? "white" : "black",
+            backgroundColor: paymentMethord === "COD" ? "#28837a" : "#ddd",
+            color: paymentMethord === "COD" ? "white" : "black",
             padding: "10px 20px",
             borderRadius: "5px",
             border: "none",
             cursor: "pointer",
           }}
-          onClick={() => setSelectedPayment("cod")}
+          onClick={() => orderCreation("COD")}
         >
           Cash on Delivery
         </button>

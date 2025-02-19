@@ -23,6 +23,9 @@ const AddressGrid: React.FC<{ address?: any; lang: string }> = ({
   address = address || [];
 
   const [selected, setSelected] = useState(address[0]);
+
+  console.log("selected", selected._id);
+  localStorage.setItem("addressId", selected._id);
   return (
     <div className="flex flex-col justify-between h-full -mt-4 text-15px md:mt-0">
       <RadioGroup
