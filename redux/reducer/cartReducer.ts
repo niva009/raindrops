@@ -50,7 +50,7 @@ const initialState: CartState = {
         if (error.response?.status === 405) {
           return rejectWithValue({ message: "Please add products from the same vendor.", code: 405 });
         }
-        return rejectWithValue(error.response?.status || "Failed to add item to cart");
+        return rejectWithValue(error.response?.data?.message || "");
       }
   
     }

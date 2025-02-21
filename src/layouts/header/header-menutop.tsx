@@ -27,7 +27,8 @@ const HeaderMenutop: React.FC<MenuProps> = ({lang, data, className,classNameLink
                 key={item.id}
             >
               <Link
-                  href={`/${lang}${item.path}`}
+                  href={'http://localhost:3001'}
+                  target="_blank"
                   className={`${classNameLink? classNameLink: 'text-fill-base' } inline-flex items-center py-2 font-normal relative group-hover:text-brand `}
               >
                 {t(item.label)}

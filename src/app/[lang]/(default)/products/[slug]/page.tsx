@@ -2,6 +2,7 @@ import Container from '@components/ui/container';
 import ProductSingleDetails from '@components/product/product';
 import ElectronicProductFeed from '@components/product/feeds/popular-products';
 import RelatedProductFeedOld from '@components/product/feeds/related-product-feed-old';
+import PopularProducts from '@components/product/feeds/popular-product-feed';
 import Breadcrumb from '@components/ui/breadcrumb';
 
 export default async function Page({
@@ -22,6 +23,7 @@ export default async function Page({
             lang={lang}
             className="mb-8 lg:mb-12"
           />
+           <PopularProducts lang={lang} className="mb-4 lg:mb-12" /> 
           <ElectronicProductFeed lang={lang}  className="mb-8 lg:mb-12"/>
         </Container>
       </div>

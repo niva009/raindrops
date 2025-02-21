@@ -41,7 +41,7 @@ export default function HeroBannerCard({
           className
         )}
         style={{
-            backgroundImage: `url('http://localhost:5555/${image}')`, 
+            backgroundImage: `url('https://raindropsbackedn.onrender.com/${image}')`, 
           backgroundPosition: 'center center',
           height:'200px'
         }}

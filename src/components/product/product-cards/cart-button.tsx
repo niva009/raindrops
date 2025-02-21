@@ -10,6 +10,7 @@
     decrementCartAsync
   } from "../../../../redux/reducer/cartReducer";
   import Modal from "react-modal";
+  import {useModalAction} from '@components/common/modal/modal.context';
 
 
 
@@ -49,6 +50,7 @@
   const AddToCartButton: React.FC<AddToCartButtonProps> = ({ productId }) => {
     const dispatch = useDispatch<AppDispatch>();
     const [showModal, setShowModal] = useState(false);
+    const {openModal} = useModalAction();
 
     const cartItems = useSelector((state: RootState) => {
       return Array.isArray(state.cart.products) ? state.cart.products : [];
@@ -60,6 +62,11 @@
       dispatch(viewCartAsync());
     }, [dispatch]);
 
+
+  function handleLogin() {
+    openModal('LOGIN_VIEW');
+}
+
     // ✅ Handle Add to Cart
     const handleAdd = useCallback(() => {
       if (!cartItem) {
@@ -68,6 +75,8 @@
           .catch((error) => {
             if (error.code === 405) {
               setShowModal(true); // Show the modal when error 405 occurs
+            } else if(error === "Invalid or expired token"){
+              handleLogin();
             }
           })
           .finally(() => {

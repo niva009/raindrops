@@ -17,6 +17,7 @@ import Image from '@components/ui/image';
 import CartIcon from '@components/icons/cart-icon';
 import isEqual from 'lodash/isEqual';
 import { useTranslation } from 'src/app/i18n/client';
+import  AddToSingleCartButton from '../product/product-cards/single-cart-button'
 
 const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
   const { t } = useTranslation(lang, 'common');
@@ -62,45 +63,7 @@ const ProductSingleDetails: React.FC<{ lang: string }> = ({ lang }) => {
   }
   const item = generateCartItem(data!, selectedVariation);
   const outOfStock = isInCart(item.id) && !isInStock(item.id);
-  function addToCart() {
-    if (!isSelected) return;
-    // to show btn feedback while product carting
-    setAddToCartLoader(true);
-    setTimeout(() => {
-      setAddToCartLoader(false);
-    }, 1500);
 
-    const item = generateCartItem(data!, selectedVariation);
-    addItemToCart(item, quantity);
-    toast('Added to the bag', {
-      progressClassName: 'fancy-progress-bar',
-      position: width! > 768 ? 'bottom-right' : 'top-right',
-      autoClose: 1500,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-    });
-  }
-  function addToWishlist() {
-    // to show btn feedback while product wishlist
-    setAddToWishlistLoader(true);
-    setFavorite(!favorite);
-    const toastStatus: string =
-      favorite === true ? t('text-remove-favorite') : t('text-added-favorite');
-    setTimeout(() => {
-      setAddToWishlistLoader(false);
-    }, 1500);
-    toast(toastStatus, {
-      progressClassName: 'fancy-progress-bar',
-      position: width! > 768 ? 'bottom-right' : 'top-right',
-      autoClose: 1500,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-    });
-  }
 
   console.log("product id", pathname.slug);
   console.log("produt details..:", data);
@@ -153,26 +116,14 @@ font-style: italic transition-colors duration-300 text-brand-dark md:text-2xl xl
             <p>{data?.description}</p>
           </div>
 
-          {Object.keys(variations).map((variation) => {
-            return (
-              <ProductAttributes
-                key={`popup-attribute-key${variation}`}
-                variations={variations}
-                attributes={attributes}
-                setAttributes={setAttributes}
-              />
-            );
-          })}
-
           <div className="pb-2">
-            {/* check that item isInCart and place the available quantity or the item quantity */}
             {isEmpty(variations) && (
               <>
-                {Number(quantity) > 0 || !outOfStock ? (
+                {Number(data.stock) > 0 || !outOfStock ? (
                   <span className="text-sm font-medium text-yellow">
                     {t('text-only') +
                       ' ' +
-                      quantity +
+                      data.stock +
                       ' ' +
                       t('text-left-item')}
                   </span>
@@ -183,50 +134,10 @@ font-style: italic transition-colors duration-300 text-brand-dark md:text-2xl xl
                 )}
               </>
             )}
-
-            {!isEmpty(selectedVariation) && (
-              <span className="text-sm font-medium text-yellow">
-                {selectedVariation?.is_disable ||
-                selectedVariation.quantity === 0
-                  ? t('text-out-stock')
-                  : `${
-                      t('text-only') +
-                      ' ' +
-                      selectedVariation.quantity +
-                      ' ' +
-                      t('text-left-item')
-                    }`}
-              </span>
-            )}
           </div>
 
           <div className="pt-1.5 lg:pt-3 xl:pt-4 space-y-2.5 md:space-y-3.5">
-            <Counter
-              variant="single"
-              value={selectedQuantity}
-              onIncrement={() => setSelectedQuantity((prev) => prev + 1)}
-              onDecrement={() =>
-                setSelectedQuantity((prev) => (prev !== 1 ? prev - 1 : 1))
-              }
-              disabled={
-                isInCart(item.id)
-                  ? getItemFromCart(item.id).quantity + selectedQuantity >=
-                    Number(item.stock)
-                  : selectedQuantity >= Number(item.stock)
-              }
-              lang={lang}
-            />
-            <Button
-              onClick={addToCart}
-              className="w-full px-1.5"
-              disabled={!isSelected}
-              loading={addToCartLoader}
-            >
-              <CartIcon color="#ffffff" className="ltr:mr-3 rtl:ml-3" />
-              {t('text-add-to-cart')}
-            </Button>
-            <div className="grid grid-cols-2 gap-2.5">
-            </div>
+         <AddToSingleCartButton productId ={data._id}/>
           </div>
       
         </div>
