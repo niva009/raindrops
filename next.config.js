@@ -4,7 +4,7 @@ module.exports = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ['localhost'], 
+    domains: ['localhost','raindropsbackedn.onrender.com'], 
     remotePatterns: [
       {
         protocol: 'http',

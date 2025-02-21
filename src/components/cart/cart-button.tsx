@@ -1,3 +1,8 @@
+
+'use client';
+
+
+import dynamic from "next/dynamic";
 import CartIcon from '@components/icons/cart-icon';
 import {useCart} from '@contexts/cart/cart.context';
 import {useUI} from '@contexts/ui.context';

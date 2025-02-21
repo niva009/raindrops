@@ -1,3 +1,7 @@
+
+'use client';
+
+
 import React, {useRef, useState, useEffect} from 'react';
 import dynamic from 'next/dynamic';
 import {siteSettings} from '@settings/site-settings';
@@ -11,7 +15,6 @@ import MenuIcon from '@components/icons/menu-icon';
 import SearchIcon from '@components/icons/search-icon';
 import HeaderMenu from '@layouts/header/header-menu';
 import HeaderMenutop from '@layouts/header/header-menutop';
-import LanguageSwitcher from '@components/ui/language-switcher';
 import {useModalAction} from '@components/common/modal/modal.context';
 import cn from 'classnames';
 import Search from '@components/common/search';
@@ -20,11 +23,12 @@ import {FiMenu} from 'react-icons/fi';
 import CategoryDropdownMenu from '@components/category/category-dropdown-menu';
 import {useTranslation} from 'src/app/i18n/client';
 import { useRouter } from 'next/navigation'
-const AuthMenu = dynamic(() => import('@layouts/header/auth-menu'), {
-    ssr: false,
-});
+import { useSelector, useDispatch } from "react-redux";
+
 const CartButton = dynamic(() => import('@components/cart/cart-button'), {
-    ssr: false,
+
+
+
 });
 
 type DivElementRef = React.MutableRefObject<HTMLDivElement>;
@@ -35,15 +39,36 @@ interface HeaderProps {
     className?: string;
 }
 const Header: React.FC<HeaderProps> = ({className, lang}) => {
-    const {openSidebar, displaySearch, openSearch, isAuthorized, displayMobileSearch} = useUI();
+
+    const {openSidebar, displaySearch, openSearch, displayMobileSearch} = useUI();
+
     const {openModal} = useModalAction();
     const siteSearchRef = useRef() as DivElementRef;
     const {t} = useTranslation(lang, 'common');
     const siteHeaderRef = useRef() as DivElementRef;
     const [categoryMenu, setCategoryMenu] = useState(Boolean(false));
     useActiveScroll(siteHeaderRef);
-    const [token, setToken] = useState(null);
 
+    const [hasHydrated, setHasHydrated] = useState(false);
+
+
+
+
+
+    const { isAuthenticated } = useSelector((state) => state.auth);
+
+    console.log("is authicedd", isAuthenticated);
+
+
+
+    useEffect(() => {
+        setHasHydrated(true);
+    }, []);
+
+
+    useEffect(() => {
+        console.log("Auth State Updated:", isAuthenticated);
+      }, [isAuthenticated]);
     
     function handleLogin() {
         openModal('LOGIN_VIEW');
@@ -58,20 +83,23 @@ const Header: React.FC<HeaderProps> = ({className, lang}) => {
     }
 
 
-    useEffect(() => {
-        const storedToken = localStorage.getItem("token");
-        setToken(storedToken);
-      }, []);
 
     const router = useRouter()
 
     const handleAuthClick = () => {
-        if (token) {
+        if (isAuthenticated) {
             router.push(`/${lang}${ROUTES.ACCOUNT}`);
         } else {
             handleLogin()
         }
       };
+
+
+
+    if (!hasHydrated) {
+        return null; // Avoid rendering UI until hydration is complete
+    }
+
     
     return (
         <>
@@ -138,7 +166,7 @@ const Header: React.FC<HeaderProps> = ({className, lang}) => {
                                                 onClick={handleAuthClick} 
                                                 className="text-sm  text-gray-700 hover:text-emerald-600 transition"
                                             >
-                                                {token ? t('text-account') : t('text-sign-in')}
+                                                {isAuthenticated ? "My-Account": 'Sign-in-Now'}
                                             </button>
                                         </div>
                                     </div>
@@ -207,7 +235,7 @@ const Header: React.FC<HeaderProps> = ({className, lang}) => {
                                                 onClick={handleAuthClick} 
                                                 className="text-sm text-gray-700 hover:text-brand transition"
                                             >
-                                                {token ? t('text-account') : t('text-sign-in')}
+                                                {isAuthenticated ? "My-Account" : "SigninNow"}
                                             </button>
                                         </div>
 

@@ -200,8 +200,7 @@ console.log("shops list.,", shops);
                         showHeroContent={true}
                         className="w-full mb-5 xl:mb-12"
                         contentClassName="p-7 sm:py-18 xl:py-16 sm:px-16 xl:px-24 md:min-h-[270px] xl:min-h-[375px] rounded"
-                        lang={lang}
-                    />
+                        lang={lang} variant={''}                    />
                 </div>
 
                 <BannerGrid
@@ -219,7 +218,10 @@ console.log("shops list.,", shops);
             </Container>
             <div className={'bg-zinc-100 py-10 sm:py-14'}>
                 <Container>
-                    {/* <ProductWithBestDeals lang={lang} className={'navSlider'} /> */}
+                <h3 style={{ fontWeight: "500px", color: "black", fontSize: "24px" }}>
+                    Shops
+                </h3>
+
 
                     <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3 md:gap-4 lg:gap-5 xl:gap-6 mb-10">
           {shops.map((item) => (
@@ -227,24 +229,11 @@ console.log("shops list.,", shops);
           ))}
         </div>
 
-                    <BestSellerProductFeed lang={lang} className="mb-8 lg:mb-15" /> 
-                    <PopularProducts lang={lang} className="mb-8 lg:mb-15" /> 
-                    <ComboOfferproducts lang={lang} className="mb-8 lg:mb-15" /> 
-                    {/* <BannerGrid
-                        lang={lang}
-                        data={gridHero}
-                        grid={1}
-                        className="mb-8 lg:mb-15"
-                    />
-                    <ListingTabsElectronicFeed lang={lang} colSiderbar={false} />
-                    <BannerGrid
-                        lang={lang}
-                        data={gridHero2}
-                        grid={3}
-                        className="mb-8 lg:mb-15"
-                    />
-                    <PopularProductFeed lang={lang} className="mb-8 lg:mb-15" />
-                    <LatestblogCarousel lang={lang} />  */}
+
+                    <BestSellerProductFeed lang={lang} className="mb-4 lg:mb-12" /> 
+                    <PopularProducts lang={lang} className="mb-4 lg:mb-12" /> 
+                    <ComboOfferproducts lang={lang} className="mb-4 lg:mb-12" /> 
+
                 </Container>
             </div>
         </>

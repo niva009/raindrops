@@ -9,6 +9,12 @@ import CloseButton from '@components/ui/close-button';
 import cn from 'classnames';
 import axios from 'axios';
 
+import { toast } from 'react-toastify';
+
+
+import { useDispatch } from "react-redux";
+import { login } from "../../../redux/reducer/authReducer";
+
 interface LoginFormProps {
   lang: string;
   isPopup?: boolean;
@@ -26,6 +32,9 @@ const LoginForm: React.FC<LoginFormProps> = ({
   const [phone, setPhone] = useState('');
   const [otp, setOtp] = useState('');
   const [isButtonGreen, setIsButtonGreen] = useState(false);
+
+
+  const dispatch = useDispatch(); 
 
   // Handle OTP input change
   function handleOtpChange(e: React.ChangeEvent<HTMLInputElement>, index: number) {
@@ -63,7 +72,11 @@ const LoginForm: React.FC<LoginFormProps> = ({
 
       if (response.status === 200) {
         const token = response.data.token;
+        dispatch(login(token));
         localStorage.setItem("token", token);
+        toast.success("Regisration Success",
+          {autoClose: 3000}
+        )
         closeModal();
         
       }
@@ -158,6 +171,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
             </>
           )}
         </div>
+
       </div>
     </div>
   );

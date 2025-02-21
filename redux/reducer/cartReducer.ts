@@ -28,28 +28,34 @@ const initialState: CartState = {
   items: [],
 };
 
-// Async action to add item to the cart via API
-export const addToCartAsync = createAsyncThunk(
-  "cart/addToCartAsync",
-  async ({ id }: { id: string }, { rejectWithValue }) => {
-    try {
-      const token = localStorage.getItem("token");
-      const response = await axios.post(
-        "http://localhost:5555/api/add-cart",
-        { productId: id, quantity: 1 },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `${token}`,
-          },
+
+  export const addToCartAsync = createAsyncThunk(
+    "cart/addToCartAsync",
+    async ({ id }: { id: string }, { rejectWithValue }) => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.post(
+          "http://localhost:5555/api/add-cart",
+          { productId: id, quantity: 1 },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `${token}`,
+            },
+          }
+        );
+        return response.data?.data;
+      } catch (error: any) {
+        console.log("error adding to cart", error);
+        if (error.response?.status === 405) {
+          return rejectWithValue({ message: "Please add products from the same vendor.", code: 405 });
         }
-      );
-      return response.data?.data;
-    } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || "Failed to add item to cart");
+        return rejectWithValue(error.response?.status || "Failed to add item to cart");
+      }
+  
     }
-  }
-);
+  );
+
 
 // Async action to view the cart
 export const viewCartAsync = createAsyncThunk(
@@ -66,6 +72,28 @@ export const viewCartAsync = createAsyncThunk(
       return response.data?.data;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || "Failed to fetch cart items");
+    }
+  }
+);
+
+
+///remove allcart value
+
+
+export const RemoveallCart = createAsyncThunk(
+  "cart/removecart",
+  async (_, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.delete("http://localhost:5555/api/delete-all-cart", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${token}`,
+        },
+      });
+      return response.data?.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || "Failed to remove all cart");
     }
   }
 );
@@ -157,6 +185,14 @@ const cartSlice = createSlice({
       state.totalDiscount = action.payload?.totalDiscount || 0;
       state.totalitems = action.payload?.totalitems || 0;
     });
+    builder.addCase(RemoveallCart.fulfilled, (state, action) => {
+      console.log("Cart has been cleared!", action.pay);
+      state.products = [];
+      state.totalPrice = 0;
+      state.totalDiscount = 0;
+      state.totalitems = 0;
+      state.couponDiscount = 0;
+    })
   
     // ✅ Handle item deletion
     builder.addCase(deleteFromCartAsync.fulfilled, (state, action) => {
@@ -189,7 +225,9 @@ const cartSlice = createSlice({
   
 });
 
-export const { applyCoupon, removeCoupon } = cartSlice.actions;
+
+export const { applyCoupon, removeCoupon ,removeFromCart} = cartSlice.actions;
+
 export default cartSlice.reducer;
 
 

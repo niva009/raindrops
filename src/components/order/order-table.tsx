@@ -34,120 +34,63 @@ const customStyles = {
 };
 
 const OrderTable: React.FC<{ orders?: any[] }> = ({ orders = [] }) => {
-  const [expandedRows, setExpandedRows] = useState<{ [key: string]: boolean }>({});
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
-  const [reviewedProducts, setReviewedProducts] = useState<string[]>([]);
+
   const [modalIsOpen, setIsOpen] = useState(false);
-  const [singleorder , setSingleOrder] = useState("");
+  const [singleOrder, setSingleOrder] = useState<any>(null);
   const token = localStorage.getItem("token");
 
-  // Fetch reviewed product IDs from localStorage
-  useEffect(() => {
-    const storedReviews = localStorage.getItem('reviewedProducts');
-    if (storedReviews) {
-      try {
-        const parsedReviews = JSON.parse(storedReviews);
-        setReviewedProducts(Array.isArray(parsedReviews) ? parsedReviews : []);
-      } catch {
-        setReviewedProducts([]);
-      }
-    }
-  }, []);
+  // Open Modal
+  const openModal = () => setIsOpen(true);
+  // Close Modal
+  const closeModal = () => setIsOpen(false);
 
-  // Save a new reviewed product ID to localStorage
-  const addProductToReviewed = (productId: string) => {
-    const updatedReviews = [...reviewedProducts, productId];
-    setReviewedProducts(updatedReviews);
-    localStorage.setItem('reviewedProducts', JSON.stringify(updatedReviews));
-  };
-
-  // Toggle expanded state for the row
-  const toggleReadMore = (id: string) => {
-    setExpandedRows((prev) => ({
-      ...prev,
-      [id]: !prev[id],
-    }));
-  };
-
-  // Trigger the review modal and set the selected order ID
-  const triggerReview = (productId: string) => {
-    setSelectedOrderId(productId);
-    setIsModalOpen(true);
-  };
-
-  
-  function openModal() {
-    setIsOpen(true);
-  }
-
-  function closeModal() {
-    setIsOpen(false);
-  }
-
-
-  const orderInfo = async(id:any) =>{
-
+  // Fetch Single Order Details
+  const orderInfo = async (id: string) => {
     try {
-
-      console.log("singleorderrrID", id);
-
-      if(id){
-        const order = await axios.get(`${process.env.NEXT_PUBLIC_REST_API_ENDPOINT}/order/${id}`,{
-          headers:{
-            Authorization: `${token}`
-          }
-        })
-        console.log("responsee", order)
-        if(order.data.success === true ){
-     
-          setSingleOrder(order.data)
-          openModal();
-        }
-      }else{
-        alert('Please select an order')
+      if (!id) {
+        alert('Please select an order');
+        return;
       }
-    }catch(error){
-      console.log(error)
+      const order = await axios.get(`${process.env.NEXT_PUBLIC_REST_API_ENDPOINT}/order/${id}`, {
+        headers: { Authorization: `${token}` }
+      });
+
+      if (order.data.success) {
+        setSingleOrder(order.data?.data);
+        openModal();
+      }
+    } catch (error) {
+      console.log("Error fetching order:", error);
     }
-  }
-
-
-  console.log("single order Details", singleorder);
-
-
-  console.log("order information..:", orders);
+  };
 
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full bg-white border border-gray-200">
-        <thead style={{background:"#28837a"}}>
+        <thead style={{ background: "#28837a" }}>
           <tr>
-            <th className="px-4 py-2 border-b text-white">orderId</th>
-            <th className="px-4 py-2 border-b text-white">orderDate</th>
+            <th className="px-4 py-2 border-b text-white">Order ID</th>
+            <th className="px-4 py-2 border-b text-white">Order Date</th>
             <th className="px-4 py-2 border-b text-white">Quantity</th>
-            <th className="px-4 py-2 border-b text-white">totalPrice</th>
-            <th className="px-4 py-2 border-b text-white">viewFullDetails</th>
+            <th className="px-4 py-2 border-b text-white">Total Price</th>
+            <th className="px-4 py-2 border-b text-white">View Details</th>
+
           </tr>
         </thead>
         <tbody>
           {orders.map((order) => (
             <tr key={order._id} className="text-center">
-              <td className="border-b">
-                {order._id}
-              </td>
-              <td className="px-4 py-2 border-b">
-              {dayjs(order.createdAt).format('DD MMM YYYY')}
-              </td>
+              <td className="border-b">{order._id}</td>
+              <td className="px-4 py-2 border-b">{dayjs(order.createdAt).format('DD MMM YYYY')}</td>
               <td className="px-2 py-0 border-b">{order.productInformation.length}</td>
               <td className="px-2 py-0 border-b">₹{order.totalAmount}</td>
               <td className="px-4 py-2 border-b">
-              <button 
-                style={{ color: "black", padding: "6px 10px" }} 
-                onClick={() => orderInfo(order._id)}  // Fix here
+                <button 
+                  style={{ color: "black", padding: "6px 10px" }} 
+                  onClick={() => orderInfo(order._id)}
                 >
-               View Details
-              </button>
+                  View Details
+                </button>
               </td>
 
             </tr>
@@ -160,38 +103,61 @@ const OrderTable: React.FC<{ orders?: any[] }> = ({ orders = [] }) => {
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
         style={customStyles}
-        contentLabel="Example Modal"
+        contentLabel="Order Details"
+        ariaHideApp={false}
       >
-        <h2 style={{display:"flex", alignContent:"center",justifyContent:"center", fontSize:"26px", fontWeight:"bolder"}}>
+        <h2 style={{ textAlign: "center", fontSize: "26px", fontWeight: "bolder" }}>
           Order Details
         </h2>
-        <table className="min-w-full bg-white border border-gray-200">
-        <thead style={{background:"#28837a"}}>
-          <tr>
-            <th className="px-4 py-2 border-b text-white">image</th>
-            <th className="px-4 py-2 border-b text-white">name</th>
-            <th className="px-4 py-2 border-b text-white">Quantity</th>
-            <th className="px-4 py-2 border-b text-white">price</th>
-          </tr>
-        </thead>
-        <tbody>
-          {orders.map((order) => (
-            <tr key={order._id} className="text-center">
-              <td className="border-b">
-                {order._id}
-              </td>
-              <td className="px-4 py-2 border-b">
-              {dayjs(order.createdAt).format('DD MMM YYYY')}
-              </td>
-              <td className="px-2 py-0 border-b">{order.productInformation.length}</td>
-              <td className="px-2 py-0 border-b">₹{order.totalAmount}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+
+        {singleOrder && (
+          <>
+            <table className="min-w-full bg-white border border-gray-200">
+              <thead style={{ background: "#28837a" }}>
+                <tr>
+                  <th className="px-4 py-2 border-b text-white">Image</th>
+                  <th className="px-4 py-2 border-b text-white">Name</th>
+                  <th className="px-4 py-2 border-b text-white">Quantity</th>
+                  <th className="px-4 py-2 border-b text-white">Sale Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                {singleOrder.productInformation.map((product: any) => (
+                  <tr key={product._id} className="text-center">
+                    <td className="border-b">
+                      <img
+                        src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${product.image}`}
+                        alt={product.name}
+                        style={{ width: "50px", height: "50px", objectFit: "cover", borderRadius: "5px" }}
+                      />
+                    </td>
+                    <td className="px-4 py-2 border-b">{product.name}</td>
+                    <td className="px-2 py-0 border-b">{product.quantity}</td>
+                    <td className="px-2 py-0 border-b">₹{product.sale_price}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            <div className="text-center mt-4">
+              <p style={{ fontSize: "18px", fontWeight: "bold" }}>Total: ₹{singleOrder.totalAmount}</p>
+              <p style={{ fontSize: "16px", color: "#555" }}>Payment Type: {singleOrder.payment_type}</p>
+            </div>
+          </>
+        )}
+
+        {/* Close Button */}
+        <div className="text-center mt-4">
+          <button onClick={closeModal} style={{ padding: "8px 15px", background: "#28837a", color: "white", borderRadius: "5px" }}>
+            Close
+          </button>
+        </div>
+
       </Modal>
     </div>
   );
 };
 
+
 export default OrderTable;
+

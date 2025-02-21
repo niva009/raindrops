@@ -54,6 +54,9 @@ const ProductCard: React.FC<ProductProps> = ({product, className, lang,variant="
     const id  = _id
     const {isInCart, isInStock} = useCart();
     const outOfStock = isInCart(id) && !isInStock(id);
+
+
+    console.log("compaonyid", companyId);
     
     
     return (
