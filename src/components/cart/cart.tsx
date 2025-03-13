@@ -20,13 +20,15 @@ export default function Cart({ lang }: { lang: string }) {
   const dispatch = useDispatch();
 
  
-  const { products, totalPrice, totalDiscount, totalitems } = useSelector((state: RootState) => state.cart);
+  const { products, totalPrice,lowCartValue } = useSelector((state: RootState) => state.cart);
 
   const isEmpty = products.length === 0; 
 
   useEffect(() => {
     dispatch(viewCartAsync()); 
   }, [dispatch]);
+
+  console.log("lowcart value", lowCartValue);
 
   return (
     <div className="flex flex-col justify-between w-full h-full">
@@ -67,6 +69,18 @@ export default function Cart({ lang }: { lang: string }) {
       )}
 
       <div className="px-5 pt-5 pb-5 border-t border-border-base md:px-7 md:pt-6 md:pb-6">
+     {lowCartValue > 0 && (
+
+          <div className="flex pb-2 md:pb-5">
+          <div className="pr-3">
+            <Heading className="mb-1 mr-40">Low cart value:</Heading>
+          </div>
+          <div className="font-semibold text-base md:text-lg text-brand-dark min-w-[80px] text-right">
+          <span className="text-green-700">+</span>  ₹{lowCartValue}
+          </div>
+          </div>
+     )}
+    
         <div className="flex pb-5 md:pb-7">
           <div className="pr-3">
             <Heading className="mb-2.5">{t("text-sub-total")}:</Heading>

@@ -22,7 +22,7 @@ const CheckoutCard: React.FC<{ lang: string }> = ({ lang }) => {
   const router = useRouter();
   const [isLoading, setLoading] = useState(false);
   const dispatch = useDispatch();
-  const { products, totalPrice, totalDiscount, totalitems,couponDiscount } = useSelector((state: RootState) => state.cart);
+  const { products, totalPrice, totalDiscount, lowCartValue,couponDiscount } = useSelector((state: RootState) => state.cart);
 
 
   useEffect(() => {
@@ -42,6 +42,11 @@ const CheckoutCard: React.FC<{ lang: string }> = ({ lang }) => {
     !isEmpty && router.push(`/${lang}${ROUTES.ORDER}`);
   }
   const checkoutFooter = [
+    {
+      id: 1,
+      name: "Low cart Amount",
+      price: lowCartValue,
+    },
     {
       id: 1,
       name: t('text-sub-total'),

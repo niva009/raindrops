@@ -165,6 +165,7 @@ const cartSlice = createSlice({
     totalDiscount: 0,
     totalitems: 0,
     couponDiscount : 0,
+    lowCartValue : 0,
   },
   reducers: {
     removeFromCart: (state, action: PayloadAction<{ id: string }>) => {
@@ -184,6 +185,7 @@ const cartSlice = createSlice({
       state.totalPrice = action.payload?.totalPrice || 0;
       state.totalDiscount = action.payload?.totalDiscount || 0;
       state.totalitems = action.payload?.totalitems || 0;
+      state.lowCartValue = action.payload?.lowCartValue || 0;
     });
     builder.addCase(RemoveallCart.fulfilled, (state, action) => {
       console.log("Cart has been cleared!", action.pay);
